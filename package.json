@@ -1,0 +1,39 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm run clean:web && npm run build:wasm && npm run build:web",
+    "build:web": "rollup -c",
+    "build:wasm": "pushd rust && wasm-pack build --release --target web --out-name raytracer && wasm-opt -O3 -o pkg/out.wasm pkg/raytracer_bg.wasm && mv pkg/out.wasm pkg/raytracer_bg.wasm && popd",
+    "dev": "npm run build:wasm && rollup -c -w",
+    "start": "sirv public --no-clear",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "clean:web": "rm -rf public/build 2>/dev/null || true",
+    "clean:rust": "pushd rust && cargo clean && popd"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.0.0",
+    "@rollup/plugin-wasm": "^5.1.2",
+    "@tsconfig/svelte": "^2.0.0",
+    "@types/codemirror": "^5.60.5",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-multi-input": "^1.3.1",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
+    "svelte-check": "^2.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "tslib": "^2.0.0",
+    "typescript": "^4.0.0"
+  },
+  "dependencies": {
+    "codemirror": "^5.64.0",
+    "comlink": "^4.3.1",
+    "sirv-cli": "^1.0.0"
+  }
+}
