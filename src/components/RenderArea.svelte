@@ -13,13 +13,13 @@
   };
 </script>
 
-<div class="container">
+<div class="render-area-container">
   <RenderControls {yaml} on:render={onRender} />
   <RenderSurface {renderPoolMutex} bind:this={surface} />
 </div>
 
 <style>
-  div.container {
+  div.render-area-container {
     display:flex;
     flex-direction: column;
     height: 100%;

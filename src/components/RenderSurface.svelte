@@ -44,12 +44,12 @@
   });
 </script>
 
-<div class="container">
+<div class="render-container">
   <canvas bind:this={canvasRef} />
 </div>
 
 <style>
-  .container {
+  .render-container {
     position: relative;
     width: 100%;
     height: 100%;

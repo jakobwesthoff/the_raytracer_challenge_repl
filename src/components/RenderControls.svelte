@@ -30,7 +30,7 @@
   let autorender: boolean = false;
 </script>
 
-<div class="container">
+<div class="controls-container">
   <button on:click={dispatchRender}>Render</button>
   {#if newDataAvailable}
     <span>(NEW)</span>
@@ -42,7 +42,7 @@
 </div>
 
 <style>
-  div.container {
+  div.controls-container {
     display: flex;
     flex-direction: row;
     height: 64px;

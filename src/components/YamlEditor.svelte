@@ -6,11 +6,13 @@
 
 <script lang="ts">
   import type { Editor, EditorConfiguration } from "codemirror";
-  import "codemirror/theme/darcula.css";
   import { createEventDispatcher } from "svelte";
   import { Debouncer } from "../Debouncer";
   import { createDeferred, Deferred } from "../Deferred";
   import Codemirror, { EditorEvent } from "./Codemirror.svelte";
+  // Important: Load theme after Editor component, to allow for correct css
+  // nesting
+  import "codemirror-one-dark-theme/one-dark.css";
 
   let waitingUpdates: { text: string; deferred: Deferred<void> }[] = [];
 
@@ -34,7 +36,7 @@
     mode: {
       name: "yaml",
     },
-    theme: "darcula",
+    theme: "one-dark",
   };
 
   let dispatch = createEventDispatcher();

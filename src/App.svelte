@@ -1,10 +1,12 @@
 <script lang="ts">
+  import "@kahi-ui/framework/dist/kahi-ui.framework.css";
+
   import YamlEditor, { ChangeEvent } from "./components/YamlEditor.svelte";
   import RenderSurface from "./components/RenderSurface.svelte";
   import { RenderPool } from "./RenderPool";
   import { Mutex } from "./Mutex";
   import { onMount } from "svelte";
-import RenderArea from './components/RenderArea.svelte';
+  import RenderArea from "./components/RenderArea.svelte";
 
   let editor: YamlEditor;
 
@@ -111,7 +113,7 @@ import RenderArea from './components/RenderArea.svelte';
   } */
 
   .wrapper {
-    display:flex;
+    display: flex;
     flex-direction: column;
     height: 100vh;
   }
@@ -119,7 +121,6 @@ import RenderArea from './components/RenderArea.svelte';
   header {
     display: flex;
     height: 46px;
-    background: #ffffff;
     /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
     border-bottom: 1px solid black;
     font-size: 1.25rem;
@@ -143,7 +144,6 @@ import RenderArea from './components/RenderArea.svelte';
   footer {
     display: flex;
     height: 46px;
-    background: #ffffff;
     /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
     border-top: 1px solid black;
     font-size: 1.25rem;
