@@ -10,6 +10,9 @@
   import { createEventDispatcher } from "svelte";
   import { Debouncer } from "../Debouncer";
   import CheckButton from "./CheckButton.svelte";
+  import GiExpandedRays from "svelte-icons/gi/GiExpandedRays.svelte";
+  import MdAutorenew from "svelte-icons/md/MdAutorenew.svelte";
+
   const dispatch = createEventDispatcher();
 
   export let yaml: string;
@@ -35,11 +38,19 @@
 <div class="controls-container">
   <div class="actions-container">
     {#if newDataAvailable}
-      <Button palette="affirmative" on:click={dispatchRender}
-        >Raytrace Scene</Button
-      >
+      <Button palette="affirmative" on:click={dispatchRender}>
+        <div class="icon">
+          <GiExpandedRays />
+        </div>
+        Raytrace Scene
+      </Button>
     {:else}
-      <Button palette="dark" on:click={dispatchRender}>Raytrace Scene</Button>
+      <Button palette="dark" on:click={dispatchRender}>
+        <div class="icon">
+          <GiExpandedRays />
+        </div>
+        Raytrace Scene
+      </Button>
     {/if}
   </div>
   <div class="autorender-container">
@@ -52,6 +63,9 @@
       checkedPalette="alert"
       bind:checked={autorender}
     >
+      <div class="icon">
+        <MdAutorenew />
+      </div>
       Auto Render
     </CheckButton>
   </div>
@@ -76,5 +90,10 @@
     display: flex;
     flex-direction: row;
     align-self: center;
+  }
+
+  .icon {
+    width: 26px;
+    height: 26px;
   }
 </style>
