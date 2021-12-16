@@ -6,8 +6,10 @@
 </script>
 
 <script lang="ts">
+  import { Badge, Button, Check, Stack, Text } from "@kahi-ui/framework";
   import { createEventDispatcher } from "svelte";
   import { Debouncer } from "../Debouncer";
+  import CheckButton from "./CheckButton.svelte";
   const dispatch = createEventDispatcher();
 
   export let yaml: string;
@@ -31,25 +33,48 @@
 </script>
 
 <div class="controls-container">
-  <button on:click={dispatchRender}>Render</button>
-  {#if newDataAvailable}
-    <span>(NEW)</span>
-  {/if}
-  <label>
-    <input type="checkbox" bind:checked={autorender} />
-    enable autorender
-  </label>
+  <div class="actions-container">
+    {#if newDataAvailable}
+      <Button palette="affirmative" on:click={dispatchRender}
+        >Raytrace Scene</Button
+      >
+    {:else}
+      <Button palette="dark" on:click={dispatchRender}>Raytrace Scene</Button>
+    {/if}
+  </div>
+  <div class="autorender-container">
+    <!-- <Stack orientation="horizontal">
+      <Check margin_right="small" palette="accent" bind:state={autorender} />
+      <Badge margin_right="medium">Automatic Rendering</Badge>
+    </Stack> -->
+    <CheckButton
+      palette="dark"
+      checkedPalette="alert"
+      bind:checked={autorender}
+    >
+      Auto Render
+    </CheckButton>
+  </div>
 </div>
 
 <style>
   div.controls-container {
     display: flex;
     flex-direction: row;
-    height: 64px;
+    height: 48px;
+    align-items: center;
   }
 
-  button {
-    display: block;
-    height: 95%;
+  div.actions-container {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    flex-grow: 1;
+  }
+
+  div.autorender-container {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
   }
 </style>

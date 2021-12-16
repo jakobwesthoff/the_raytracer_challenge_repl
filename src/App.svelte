@@ -119,11 +119,12 @@
   }
 
   header {
+    background:#282c34;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
     display: flex;
     height: 46px;
-    /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
-    border-bottom: 1px solid black;
     font-size: 1.25rem;
+    z-index: 100;
   }
 
   main {
@@ -144,8 +145,9 @@
   footer {
     display: flex;
     height: 46px;
-    /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
-    border-top: 1px solid black;
+    background:#282c34;
+    box-shadow: 0px -3px 5px rgba(0, 0, 0, 0.5);
+    z-index: 100;
     font-size: 1.25rem;
   }
 </style>

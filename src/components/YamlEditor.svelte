@@ -74,6 +74,8 @@
     position: relative;
     width: 100%;
     height: 100%;
+    box-shadow: -3px 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 99;
   }
 
   div.editor-container :global(.CodeMirror) {
