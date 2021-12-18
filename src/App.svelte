@@ -7,6 +7,7 @@
   import { Mutex } from "./Mutex";
   import { onMount } from "svelte";
   import RenderArea from "./components/RenderArea.svelte";
+  import SplitView from "./components/SplitView.svelte";
 
   let editor: YamlEditor;
 
@@ -95,23 +96,18 @@
 
 <div class="wrapper">
   <header>The Raytracer Challenge in Rust</header>
-  <main>
-    <section class="renderer">
+  <SplitView>
+    <svelte:fragment slot="a">
       <RenderArea {yaml} {renderPoolMutex} />
-    </section>
-    <section class="editor">
+    </svelte:fragment>
+    <svelte:fragment slot="b">
       <YamlEditor on:change={onchange} bind:this={editor} />
-    </section>
-  </main>
+    </svelte:fragment>
+  </SplitView>
   <footer>Made with ❤️ by Jakob Westhoff</footer>
 </div>
 
 <style>
-  /* :global(body) {
-    display: flex;
-    flex-direction: column;
-  } */
-
   .wrapper {
     display: flex;
     flex-direction: column;
@@ -119,7 +115,7 @@
   }
 
   header {
-    background:#282c34;
+    background: #282c34;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
     display: flex;
     height: 46px;
@@ -127,25 +123,11 @@
     z-index: 100;
   }
 
-  main {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-  }
-
-  section {
-    display: flex;
-    flex: 1;
-  }
-
-  section:not(:last-child) {
-    border-right: 1px solid black;
-  }
 
   footer {
     display: flex;
     height: 46px;
-    background:#282c34;
+    background: #282c34;
     box-shadow: 0px -3px 5px rgba(0, 0, 0, 0.5);
     z-index: 100;
     font-size: 1.25rem;
