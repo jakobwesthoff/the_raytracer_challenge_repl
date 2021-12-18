@@ -18,13 +18,11 @@ export class Debouncer<T extends Function> {
       if (this.debounceTimeout !== undefined) {
         window.clearTimeout(this.debounceTimeout);
         this.debounceTimeout = undefined;
-        console.log("cleared old debounce");
       }
       this.debounceTimeout = window.setTimeout(() => {
         this.debounceTimeout = undefined;
         this.callback(...args);
       }, this.delay);
-      console.log("debounce timeout set");
     };
     debouncedCallback.clear = () => {
       if (this.debounceTimeout !== undefined) {
