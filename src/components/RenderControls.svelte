@@ -6,12 +6,11 @@
 </script>
 
 <script lang="ts">
-  import { Badge, Button, Check, Stack, Text } from "@kahi-ui/framework";
+  import { Box, Menu, Overlay } from "@kahi-ui/framework";
   import { createEventDispatcher } from "svelte";
   import { Debouncer } from "../Debouncer";
-  import CheckButton from "./CheckButton.svelte";
-  import GiExpandedRays from "svelte-icons/gi/GiExpandedRays.svelte";
-  import MdAutorenew from "svelte-icons/md/MdAutorenew.svelte";
+  import CheckMenuButton from "./CheckMenuButton.svelte";
+  import { CheckSquare, Square, Activity } from "svelte-lucide-icons";
 
   const dispatch = createEventDispatcher();
 
@@ -35,65 +34,52 @@
   let autorender: boolean = false;
 </script>
 
-<div class="controls-container">
-  <div class="actions-container">
-    {#if newDataAvailable}
-      <Button palette="affirmative" on:click={dispatchRender}>
-        <div class="icon">
-          <GiExpandedRays />
-        </div>
-        Raytrace Scene
-      </Button>
-    {:else}
-      <Button palette="dark" on:click={dispatchRender}>
-        <div class="icon">
-          <GiExpandedRays />
-        </div>
-        Raytrace Scene
-      </Button>
-    {/if}
-  </div>
-  <div class="autorender-container">
-    <!-- <Stack orientation="horizontal">
-      <Check margin_right="small" palette="accent" bind:state={autorender} />
-      <Badge margin_right="medium">Automatic Rendering</Badge>
-    </Stack> -->
-    <CheckButton
-      palette="dark"
-      checkedPalette="alert"
-      bind:checked={autorender}
-    >
-      <div class="icon">
-        <MdAutorenew />
-      </div>
-      Auto Render
-    </CheckButton>
-  </div>
-</div>
+<Overlay
+  class="render-controls-overlay"
+  orientation="horizontal"
+  alignment_x="left"
+  alignment_y="top"
+>
+  <Box palette="dark" shape="rounded" margin="medium" padding="small">
+    <Menu.Container orientation="horizontal" sizing="tiny">
+      {#if newDataAvailable}
+        <Menu.Button palette="affirmative" on:click={dispatchRender}>
+          <Activity />
+          Raytrace Scene
+        </Menu.Button>
+      {:else}
+        <Menu.Button palette="accent" on:click={dispatchRender}>
+          <Activity />
+          Raytrace Scene
+        </Menu.Button>
+      {/if}
+      <CheckMenuButton
+        palette="default"
+        checkedPalette="alert"
+        bind:checked={autorender}
+      >
+        <svelte:fragment slot="checked">
+          <CheckSquare />
+          Auto Render
+        </svelte:fragment>
+        <svelte:fragment slot="unchecked">
+          <Square />
+          Auto Render
+        </svelte:fragment>
+      </CheckMenuButton>
+    </Menu.Container>
+  </Box>
+</Overlay>
 
 <style>
-  div.controls-container {
-    display: flex;
-    flex-direction: row;
-    height: 48px;
-    align-items: center;
+  :global(.render-controls-overlay) {
+    position: absolute;
   }
 
-  div.actions-container {
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-    flex-grow: 1;
+  :global(.render-controls-overlay) :global(.box:hover) {
+    transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   }
-
-  div.autorender-container {
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-  }
-
-  .icon {
-    width: 26px;
-    height: 26px;
+  :global(.render-controls-overlay) :global(.box:not(:hover)) {
+    opacity: 0.5;
   }
 </style>

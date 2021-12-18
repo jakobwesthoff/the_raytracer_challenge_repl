@@ -1,9 +1,21 @@
 <script context="module" lang="ts">
-  type Palette = "auto" | "inverse" | "inherit" | "accent" | "dark" | "light" | "alert" | "affirmative" | "negative" | undefined;
+  type Palette =
+    | "auto"
+    | "inverse"
+    | "inherit"
+    | "accent"
+    | "dark"
+    | "light"
+    | "alert"
+    | "affirmative"
+    | "negative"
+    | undefined;
 </script>
+
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { Button } from "@kahi-ui/framework";
+  import { Menu } from "@kahi-ui/framework";
+  const { Button } = Menu;
 
   export let checked = false;
   export let checkedPalette: Palette = "affirmative";
@@ -19,10 +31,10 @@
 
 {#if checked}
   <Button {...$$props} palette={checkedPalette} on:click={flipChecked}>
-    <slot />
+    <slot name="checked" />
   </Button>
 {:else}
   <Button {...$$props} on:click={flipChecked}>
-    <slot />
+    <slot name="unchecked" />
   </Button>
 {/if}

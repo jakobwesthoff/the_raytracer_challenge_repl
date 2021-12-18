@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Mutex } from "../Mutex";
   import type { RenderPool } from "../RenderPool";
-  import RenderControls, { RenderRequestEvent } from "./RenderControls.svelte";
+  import type { RenderRequestEvent } from "./RenderControls.svelte";
+  import RenderControls from "./RenderControls.svelte";
   import RenderSurface from "./RenderSurface.svelte";
 
   export let renderPoolMutex: Mutex<RenderPool>;
@@ -18,11 +19,11 @@
 </script>
 
 <div class="render-area-container">
-  <div class="surface-container">
-    <RenderSurface {renderPoolMutex} bind:this={surface} />
-  </div>
-  <div class="controls-container">
+  <div>
     <RenderControls {yaml} on:render={onRender} />
+  </div>
+  <div class="full-frame">
+    <RenderSurface {renderPoolMutex} bind:this={surface} />
   </div>
 </div>
 
@@ -35,26 +36,11 @@
     width: 100%;
   }
 
-  div.surface-container {
+  div.full-frame {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-  }
-
-  .controls-container {
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.8);
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0.5;
-    transition: opacity 0.2s ease-out !important;
-    padding: 0 12px;
-  }
-  .controls-container:hover {
-    opacity: 1;
   }
 </style>
