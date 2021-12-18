@@ -3,6 +3,7 @@ use std::panic;
 
 use the_ray_tracer_challenge::world_loader::{self, WorldLoader};
 use wasm_bindgen::{prelude::*, Clamped};
+use js_sys::{Array, Error};
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -20,6 +21,19 @@ extern "C" {
 
 macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
+}
+
+macro_rules! throw_js_error {
+    ($($t: tt)*) => (Err(Error::new(&(format_args!($($t)*)).to_string()).into()))
+}
+
+macro_rules! anyhow_js_err {
+    ($expr: expr) => {
+        match $expr {
+            Ok(result) => Ok(result),
+            Err(anyhow_error) => Err(Error::new(&*anyhow_error.to_string()))
+        }
+    }
 }
 
 #[wasm_bindgen(start)]
@@ -53,11 +67,11 @@ pub struct World {
 #[wasm_bindgen]
 impl World {
     #[wasm_bindgen(constructor)]
-    pub fn new(yaml: String) -> Self {
+    pub fn new(yaml: String) -> Result<World, JsValue> {
         let loader = world_loader::yaml::Loader::default();
-        let (world, cameras) = loader.load_world(yaml).unwrap();
+        let (world, cameras) = anyhow_js_err!(loader.load_world(yaml))?;
 
-        Self { world, cameras }
+        Ok(Self { world, cameras })
     }
 
     #[wasm_bindgen(js_name = getCameras)]
@@ -80,39 +94,39 @@ impl World {
         y2: usize,
     ) -> Result<Clamped<Vec<u8>>, JsValue> {
         if !self.cameras.contains_key(&camera_id) {
-            return Err(JsValue::from_str(&format!(
+            return throw_js_error!(
                 "Given cameraId '{}', is not defined.",
                 camera_id
-            )));
+            );
         }
         let camera = self.cameras.get(&camera_id).unwrap();
 
         if x1 > camera.hsize || x2 > camera.hsize {
-            return Err(JsValue::from_str(&format!(
+            return throw_js_error!(
                 "Requested x value (x1: {}, x2: {}) is outside of camera bounds {}x{}.",
                 x1, x2, camera.vsize, camera.hsize
-            )));
+            );
         }
 
         if y1 > camera.vsize || y2 > camera.vsize {
-            return Err(JsValue::from_str(&format!(
+            return throw_js_error!(
                 "Requested y value (y1: {}, y2: {}) is outside of camera bounds {}x{}.",
                 y1, y2, camera.vsize, camera.hsize
-            )));
+            );
         }
 
         if x1 >= x2 {
-            return Err(JsValue::from_str(&format!(
+            return throw_js_error!(
                 "x2 is now allowed to be smaller or equal than x1 ({} < {})",
                 x2, x1
-            )));
+            );
         }
 
         if y1 >= y2 {
-            return Err(JsValue::from_str(&format!(
+            return throw_js_error!(
                 "y2 is now allowed to be smaller or equal than y1 ({} < {})",
                 y2, y1
-            )));
+            );
         }
 
         // Skip the "cost" of initializing the vector, as we are writing everywhere
