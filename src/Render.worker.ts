@@ -28,7 +28,7 @@ export class RenderWorker {
     this.initialized = true;
   }
 
-  public loadYaml(yaml: string) {
+  public loadYaml(yaml: string): void {
     this.assertIsInitialized();
     this.world = new World(yaml);
     this.cameras = new Map(

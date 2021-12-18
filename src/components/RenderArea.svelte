@@ -8,8 +8,12 @@
   export let yaml: string;
   let surface: RenderSurface;
 
-  const onRender = (event: RenderRequestEvent) => {
-    surface.render(event.detail.yaml);
+  const onRender = async (event: RenderRequestEvent) => {
+    try {
+      await surface.render(event.detail.yaml);
+    } catch (error) {
+      console.log(`Error during rendering: ${error}`);
+    }
   };
 </script>
 

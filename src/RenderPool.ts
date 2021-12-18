@@ -31,7 +31,8 @@ export class RenderPool {
     if (this.workers.length < this.poolSize) {
       await this.initialize();
     }
-    await Promise.all([this.workers.map((worker) => worker.loadYaml(yaml))]);
+
+    await Promise.all(this.workers.map((worker) => worker.loadYaml(yaml)));
   }
 
   public async getCameras(): Promise<Camera[]> {

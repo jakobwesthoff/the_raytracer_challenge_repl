@@ -10,7 +10,7 @@
   let initialized = false;
   let renderedYaml: string;
 
-  export const render = async (yaml: string) => {
+  export const render = async (yaml: string): Promise<void> => {
     renderedYaml = yaml;
     if (pool !== undefined) {
       console.time("Stopping old render");
@@ -20,19 +20,24 @@
     console.time("Waiting to render");
     pool = await renderPoolMutex.acquire();
     console.timeEnd("Waiting to render");
-    console.time("Rendering");
-    await pool.loadYaml(yaml);
-    let cameras = await pool.getCameras();
-    let cameraToRender = cameras[0];
-    canvasRef.setAttribute("width", `${cameraToRender.width}`);
-    canvasRef.setAttribute("height", `${cameraToRender.height}`);
-    let ctx = canvasRef.getContext("2d");
-    await pool.render(cameraToRender.id, (data, { x1, y1 }) => {
-      ctx.putImageData(data, x1, y1);
-    });
-    console.timeEnd("Rendering");
-    pool.release();
-    pool = undefined;
+    try {
+      console.time("Rendering");
+      await pool.loadYaml(yaml);
+      let cameras = await pool.getCameras();
+      let cameraToRender = cameras[0];
+      canvasRef.setAttribute("width", `${cameraToRender.width}`);
+      canvasRef.setAttribute("height", `${cameraToRender.height}`);
+      let ctx = canvasRef.getContext("2d");
+      await pool.render(cameraToRender.id, (data, { x1, y1 }) => {
+        ctx.putImageData(data, x1, y1);
+      });
+    } catch (e) {
+      throw e;
+    } finally {
+      console.timeEnd("Rendering");
+      pool.release();
+      pool = undefined;
+    }
   };
 
   onMount(async () => {
