@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import wasm from '@rollup/plugin-wasm';
 import multiInput from 'rollup-plugin-multi-input';
+import { string } from 'rollup-plugin-string';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -83,6 +84,7 @@ export default [
 			// we'll extract any component CSS out into
 			// a separate file - better for performance
 			postcss({ extract: true }),
+			string({ include: "src/worlds/**/*.yaml" }),
 
 			// If you have external dependencies installed from
 			// npm, you'll most likely need these plugins. In

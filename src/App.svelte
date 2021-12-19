@@ -22,81 +22,12 @@
   } from "svelte-lucide-icons";
   import { Anchor, Menu } from "@kahi-ui/framework";
   import ErrorTile from "./components/ErrorTile.svelte";
+  import three_spheres_world from "./worlds/three_spheres.yaml";
 
   let editor: YamlEditor;
   let hideEditor = false;
 
-  let yaml = `
----
-- light:
-    type: point_light
-    at: [-10, 10, -10]
-    intensity: [1, 1, 1]
-
-# Floor
-- body:
-    type: plane
-    material:
-      type: phong
-      color: [0.5, 0.45, 0.45]
-      specular: 0.0
-
-# Left Sphere
-- body:
-    type: sphere
-    material:
-      type: phong
-      color: [0.635, 0, 1]
-    transforms:
-      - type: scale
-        to: [0.33, 0.33, 0.33]
-      - type: translate
-        to: [-1.5, 0.33, -0.75]
-
-# Middle Sphere
-- body:
-    type: sphere
-    material:
-      type: phong
-      color: [1, 0, 0.635]
-      diffuse: 0.9
-      specular: 1.8
-    transforms:
-      - type: translate
-        to: [-0.5, 1.0, 0.5]
-
-# Right Sphere
-- body:
-    type: sphere
-    material:
-      type: phong
-      color: [0, 0.635, 1]
-    transforms:
-      - type: scale
-        to: [0.5, 0.5, 0.5]
-      - type: translate
-        to: [1.5, 0.5, -0.5]
-
-# Camera
-- camera:
-    name: main_camera
-    width: 1280
-    height: 720
-    field_of_view: 1.047 # PI/3
-    from: [0, 1.5, -5]
-    to: [0, 1, 0]
-    up: [0, 1, 0]
-
-# Camera further moved down x
-- camera:
-    name: second_camera
-    width: 1280
-    height: 720
-    field_of_view: 1.047 # PI/3
-    from: [1, 0.5, -5]
-    to: [0, 1, 0]
-    up: [0, 1, 0]
-`;
+  let yaml = three_spheres_world;
 
   let errorTile: ErrorTile;
 
