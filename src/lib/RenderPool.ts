@@ -1,6 +1,6 @@
 import { Remote, wrap } from "comlink";
 import { createDeferred, Deferred } from "./Deferred";
-import type { Camera, RenderWorker } from "./Render.worker";
+import type { Camera, RenderWorker } from "../Render.worker";
 
 export type RenderCallback = (data: ImageData, block: Block) => void;
 export type BlockSize = { width: number; height: number };

@@ -9,8 +9,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import type { Mutex } from "../Mutex";
-  import type { RenderPool } from "../RenderPool";
+  import type { Mutex } from "../lib/Mutex";
+  import type { RenderPool } from "../lib/RenderPool";
   import type { RenderRequestEvent } from "./RenderControls.svelte";
   import RenderControls from "./RenderControls.svelte";
   import RenderSurface from "./RenderSurface.svelte";

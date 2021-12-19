@@ -3,8 +3,8 @@
 
   import YamlEditor, { ChangeEvent } from "./components/YamlEditor.svelte";
   import RenderSurface from "./components/RenderSurface.svelte";
-  import { RenderPool } from "./RenderPool";
-  import { Mutex } from "./Mutex";
+  import { RenderPool } from "./lib/RenderPool";
+  import { Mutex } from "./lib/Mutex";
   import { onMount } from "svelte";
   import RenderArea, {
     RenderErrorEvent,
@@ -12,7 +12,7 @@
   } from "./components/RenderArea.svelte";
   import SplitView from "./components/SplitView.svelte";
   import type { SlideEvent } from "./actions/slidable";
-  import { Debouncer } from "./Debouncer";
+  import { Debouncer } from "./lib/Debouncer";
   import {
     FunctionSquare,
     Github,

@@ -7,8 +7,8 @@
 <script lang="ts">
   import type { Editor, EditorConfiguration } from "codemirror";
   import { createEventDispatcher } from "svelte";
-  import { Debouncer } from "../Debouncer";
-  import { createDeferred, Deferred } from "../Deferred";
+  import { Debouncer } from "../lib/Debouncer";
+  import { createDeferred, Deferred } from "../lib/Deferred";
   import Codemirror, { EditorEvent } from "./Codemirror.svelte";
   // Important: Load theme after Editor component, to allow for correct css
   // nesting

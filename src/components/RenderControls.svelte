@@ -8,7 +8,7 @@
 <script lang="ts">
   import { Box, Menu, Overlay } from "@kahi-ui/framework";
   import { createEventDispatcher } from "svelte";
-  import { Debouncer } from "../Debouncer";
+  import { Debouncer } from "../lib/Debouncer";
   import CheckMenuButton from "./CheckMenuButton.svelte";
   import { CheckSquare, Square, Activity } from "svelte-lucide-icons";
 

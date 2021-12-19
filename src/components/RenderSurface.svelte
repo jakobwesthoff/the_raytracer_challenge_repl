@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { AcquiredMutex, Mutex } from "../Mutex";
-  import type { RenderPool } from "../RenderPool";
+  import type { AcquiredMutex, Mutex } from "../lib/Mutex";
+  import type { RenderPool } from "../lib/RenderPool";
 
   export let renderPoolMutex: Mutex<RenderPool>;
 

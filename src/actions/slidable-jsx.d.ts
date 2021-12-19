@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 import { SlideEvent } from "./slidable";
 
 declare namespace svelte.JSX {
