@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import type { AcquiredMutex, Mutex } from "../lib/Mutex";
   import type { RenderPool } from "../lib/RenderPool";
+  import { cameras, selectedCamera } from "../stores/camera";
 
   export let renderPoolMutex: Mutex<RenderPool>;
 
@@ -10,8 +11,33 @@
   let initialized = false;
   let renderedYaml: string;
 
+  export const updateCameras = async (yaml: string): Promise<void> => {
+    if (pool !== undefined) {
+      console.time("Stopping old render");
+      await pool.stop();
+      console.timeEnd("Stopping old render");
+    }
+    console.time("Waiting to acquire render pool");
+    pool = await renderPoolMutex.acquire();
+    console.timeEnd("Waiting to acquire render pool");
+    try {
+      console.time("Getting cameras");
+      await pool.loadYaml(yaml);
+      const loadedCameras = await pool.getCameras();
+      loadedCameras.sort((a, b) => a.id.localeCompare(b.id));
+      $cameras = loadedCameras;
+    } catch (e) {
+      throw e;
+    } finally {
+      console.timeEnd("Getting cameras");
+      pool.release();
+      pool = undefined;
+    }
+  };
+
   export const render = async (yaml: string): Promise<void> => {
     renderedYaml = yaml;
+    await updateCameras(yaml);
     if (pool !== undefined) {
       console.time("Stopping old render");
       await pool.stop();
@@ -23,8 +49,7 @@
     try {
       console.time("Rendering");
       await pool.loadYaml(yaml);
-      let cameras = await pool.getCameras();
-      let cameraToRender = cameras[0];
+      let cameraToRender = $selectedCamera;
       canvasRef.setAttribute("width", `${cameraToRender.width}`);
       canvasRef.setAttribute("height", `${cameraToRender.height}`);
       let ctx = canvasRef.getContext("2d");

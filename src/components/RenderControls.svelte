@@ -11,25 +11,44 @@
   import { Debouncer } from "../lib/Debouncer";
   import CheckMenuButton from "./CheckMenuButton.svelte";
   import { CheckSquare, Square, Activity } from "svelte-lucide-icons";
+  import CameraMenu from "./CameraMenu.svelte";
+  import {
+    areCameraIdsEqual,
+    areCamerasEqual,
+    cameras,
+    selectedCamera,
+  } from "../stores/camera";
+  import type { Camera } from "../Render.worker";
 
   const dispatch = createEventDispatcher();
 
   export let yaml: string;
   export let debounce: number = 0;
+
   let lastEmittedYaml: string;
+  let lastSelectedCamera: Camera;
 
   const dispatchRender = () => {
     lastEmittedYaml = yaml;
+    lastSelectedCamera = $selectedCamera;
     const detail: RenderRequestEventDetail = { yaml };
     dispatch("render", detail);
   };
 
   let newDataAvailable = false;
-  $: newDataAvailable = yaml != lastEmittedYaml;
+  $: {
+    newDataAvailable =
+      yaml != lastEmittedYaml ||
+      !areCameraIdsEqual($selectedCamera, lastSelectedCamera);
+  }
 
   let debouncedRender = Debouncer.debounce(dispatchRender, debounce);
   $: if (autorender && newDataAvailable) debouncedRender();
   $: if (!autorender) debouncedRender.clear();
+
+  $: if (lastSelectedCamera === undefined && $selectedCamera !== undefined) {
+    lastSelectedCamera = $selectedCamera;
+  }
 
   let autorender: boolean = false;
 </script>
@@ -53,10 +72,7 @@
           Raytrace Scene
         </Menu.Button>
       {/if}
-      <CheckMenuButton
-        checkedPalette="alert"
-        bind:checked={autorender}
-      >
+      <CheckMenuButton checkedPalette="alert" bind:checked={autorender}>
         <svelte:fragment slot="checked">
           <CheckSquare />
           Auto Render
@@ -66,6 +82,9 @@
           Auto Render
         </svelte:fragment>
       </CheckMenuButton>
+      {#if $cameras.length > 1}
+        <CameraMenu />
+      {/if}
     </Menu.Container>
   </Box>
 </Overlay>
