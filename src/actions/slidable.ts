@@ -20,6 +20,7 @@ export function slidable(
     document.addEventListener("mouseup", onMouseUp);
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mousedown", blockMouseDown);
+    node.dispatchEvent(new CustomEvent("slideStart"));
     inProgress = true;
   };
 
@@ -27,6 +28,7 @@ export function slidable(
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUp);
     document.removeEventListener("mousedown", blockMouseDown);
+    node.dispatchEvent(new CustomEvent("slideEnd"));
     inProgress = false;
   };
 

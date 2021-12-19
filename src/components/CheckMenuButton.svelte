@@ -18,6 +18,7 @@
   const { Button } = Menu;
 
   export let checked = false;
+  export let palette: Palette = undefined;
   export let checkedPalette: Palette = "affirmative";
 
   let dispatch = createEventDispatcher();
@@ -34,7 +35,7 @@
     <slot name="checked" />
   </Button>
 {:else}
-  <Button {...$$props} on:click={flipChecked}>
+  <Button {...$$props} {palette} on:click={flipChecked}>
     <slot name="unchecked" />
   </Button>
 {/if}

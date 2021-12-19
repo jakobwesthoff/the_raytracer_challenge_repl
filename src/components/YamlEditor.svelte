@@ -17,6 +17,7 @@
   let waitingUpdates: { text: string; deferred: Deferred<void> }[] = [];
 
   export let debounce: number = 500;
+  export let hidden: boolean = false;
   export const setText = async (text: string): Promise<void> => {
     if (editor) {
       // Try to save the scroll position
@@ -30,6 +31,12 @@
     }
   };
 
+  export const refresh = () => {
+    if (editor) {
+      editor.refresh();
+    }
+  };
+
   const config: EditorConfiguration = {
     lineNumbers: true,
     lineWrapping: false,
@@ -37,6 +44,7 @@
       name: "yaml",
     },
     theme: "one-dark",
+    viewportMargin: Infinity,
   };
 
   let dispatch = createEventDispatcher();
@@ -65,7 +73,7 @@
   }
 </script>
 
-<div class="editor-container">
+<div class="editor-container" data-editor-hidden={hidden}>
   <Codemirror {config} on:editor={onEditor} />
 </div>
 
@@ -74,8 +82,12 @@
     position: relative;
     width: 100%;
     height: 100%;
-    box-shadow: -3px 2px 5px rgba(0, 0, 0, 0.5);
     z-index: 99;
+    line-height: 1.4;
+    background: #282c34;
+  }
+  div.editor-container[data-editor-hidden="true"] :global(.CodeMirror) {
+    display: none;
   }
 
   div.editor-container :global(.CodeMirror) {
@@ -84,8 +96,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100%;
+    height: auto;
     width: 100%;
+  }
+
+  div.editor-container :global(.cm-s-one-dark),
+  div.editor-container :global(.CodeMirror) :global(*) {
+    font-size: 14px;
   }
 
   div.editor-container :global(.CodeMirror-linenumber) {

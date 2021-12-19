@@ -54,7 +54,6 @@
         </Menu.Button>
       {/if}
       <CheckMenuButton
-        palette="default"
         checkedPalette="alert"
         bind:checked={autorender}
       >
