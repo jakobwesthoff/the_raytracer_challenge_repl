@@ -73,6 +73,7 @@ import { createEventDispatcher } from 'svelte';
     display: flex;
     flex-grow: 1;
     --split-point-a: 0.5;
+    position: relative;
   }
 
   .split-container[data-orientation="horizontal"] {

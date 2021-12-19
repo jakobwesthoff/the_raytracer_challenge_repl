@@ -6,7 +6,10 @@
   import { RenderPool } from "./RenderPool";
   import { Mutex } from "./Mutex";
   import { onMount } from "svelte";
-  import RenderArea from "./components/RenderArea.svelte";
+  import RenderArea, {
+    RenderErrorEvent,
+    RenderFinishedEvent,
+  } from "./components/RenderArea.svelte";
   import SplitView from "./components/SplitView.svelte";
   import type { SlideEvent } from "./actions/slidable";
   import { Debouncer } from "./Debouncer";
@@ -18,6 +21,7 @@
     Youtube,
   } from "svelte-lucide-icons";
   import { Anchor, Menu } from "@kahi-ui/framework";
+  import ErrorTile from "./components/ErrorTile.svelte";
 
   let editor: YamlEditor;
   let hideEditor = false;
@@ -94,6 +98,8 @@
     up: [0, 1, 0]
 `;
 
+  let errorTile: ErrorTile;
+
   const onchange = (event: CustomEvent<ChangeEvent>) => {
     yaml = event.detail.text;
   };
@@ -104,6 +110,14 @@
 
   const onSlideEnd = () => {
     hideEditor = false;
+  };
+
+  const onRenderError = (event: RenderErrorEvent) => {
+    errorTile.addErrorMessage(event.detail.error.message);
+  };
+
+  const onRenderFinished = (event: RenderFinishedEvent) => {
+    errorTile.clearErrorMessages();
   };
 
   const renderPoolMutex = new Mutex(new RenderPool());
@@ -138,9 +152,15 @@
   </header>
   <SplitView on:slideStart={onSlideStart} on:slideEnd={onSlideEnd}>
     <svelte:fragment slot="a">
-      <RenderArea {yaml} {renderPoolMutex} />
+      <RenderArea
+        {yaml}
+        {renderPoolMutex}
+        on:error={onRenderError}
+        on:finished={onRenderFinished}
+      />
     </svelte:fragment>
     <svelte:fragment slot="b">
+      <ErrorTile bind:this={errorTile} />
       <YamlEditor on:change={onchange} hidden={hideEditor} bind:this={editor} />
     </svelte:fragment>
   </SplitView>

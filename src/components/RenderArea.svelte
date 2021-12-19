@@ -1,4 +1,14 @@
+<script context="module" lang="ts">
+  export type RenderErrorEventDetail = { error: Error };
+  export type RenderErrorEvent = CustomEvent<RenderErrorEventDetail>;
+
+  export type RenderFinishedEventDetail = {};
+  export type RenderFinishedEvent = CustomEvent<RenderFinishedEventDetail>;
+</script>
+
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+
   import type { Mutex } from "../Mutex";
   import type { RenderPool } from "../RenderPool";
   import type { RenderRequestEvent } from "./RenderControls.svelte";
@@ -7,13 +17,17 @@
 
   export let renderPoolMutex: Mutex<RenderPool>;
   export let yaml: string;
+
+  let dispatch = createEventDispatcher();
+
   let surface: RenderSurface;
 
   const onRender = async (event: RenderRequestEvent) => {
     try {
       await surface.render(event.detail.yaml);
+      dispatch("finished", {});
     } catch (error) {
-      console.log(`Error during rendering: ${error}`);
+      dispatch("error", { error });
     }
   };
 </script>
