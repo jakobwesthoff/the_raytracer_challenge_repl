@@ -6,11 +6,17 @@
 </script>
 
 <script lang="ts">
-  import { Box, Menu, Overlay } from "@kahi-ui/framework";
+  import { Box, Menu, Text, Overlay } from "@kahi-ui/framework";
   import { createEventDispatcher } from "svelte";
   import { Debouncer } from "../lib/Debouncer";
   import CheckMenuButton from "./CheckMenuButton.svelte";
-  import { CheckSquare, Square, Activity } from "svelte-lucide-icons";
+  import {
+    CheckSquare,
+    Square,
+    Activity,
+    ZoomIn,
+    ZoomOut,
+  } from "svelte-lucide-icons";
   import CameraMenu from "./CameraMenu.svelte";
   import {
     areCameraIdsEqual,
@@ -19,6 +25,7 @@
     selectedCamera,
   } from "../stores/camera";
   import type { Camera } from "../Render.worker";
+  import { zoom } from "../stores/render";
 
   const dispatch = createEventDispatcher();
 
@@ -51,6 +58,27 @@
   }
 
   let autorender: boolean = false;
+
+  // Zoom
+  let zoomLevels = [
+    0.125, 0.25, 0.33, 0.5, 0.66, 0.75, 0.875, 1.0, 1.125, 1.25, 1.33, 1.5,
+    1.66, 1.75, 1.875, 2.0,
+  ];
+  let zoomIndex = 7;
+  const zoomIn = () => {
+    zoomIndex += 1;
+    if (zoomIndex >= zoomLevels.length) {
+      zoomIndex = zoomLevels.length - 1;
+    }
+    $zoom = zoomLevels[zoomIndex];
+  };
+  const zoomOut = () => {
+    zoomIndex -= 1;
+    if (zoomIndex < 0) {
+      zoomIndex = 0;
+    }
+    $zoom = zoomLevels[zoomIndex];
+  };
 </script>
 
 <Overlay
@@ -89,6 +117,27 @@
   </Box>
 </Overlay>
 
+<Overlay
+  class="render-controls-overlay render-controls-zoom-overlay"
+  orientation="horizontal"
+  alignment_x="right"
+  alignment_y="bottom"
+>
+  <Box palette="dark" shape="rounded" margin="medium" padding="small">
+    <Menu.Container orientation="horizontal" sizing="tiny">
+      <Menu.Button on:click={zoomOut}>
+        <ZoomOut />
+      </Menu.Button>
+      <Menu.Button palette="accent">
+        {zoomLevels[zoomIndex] * 100} %
+      </Menu.Button>
+      <Menu.Button on:click={zoomIn}>
+        <ZoomIn />
+      </Menu.Button>
+    </Menu.Container>
+  </Box>
+</Overlay>
+
 <style>
   :global(.render-controls-overlay) {
     position: absolute;
@@ -99,5 +148,10 @@
   }
   :global(.render-controls-overlay) :global(.box:not(:hover)) {
     opacity: 0.5;
+  }
+
+  :global(.render-controls-zoom-overlay svg) {
+    width: 18px;
+    height: 18px;
   }
 </style>

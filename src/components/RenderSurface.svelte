@@ -3,6 +3,7 @@
   import type { AcquiredMutex, Mutex } from "../lib/Mutex";
   import type { RenderPool } from "../lib/RenderPool";
   import { cameras, selectedCamera } from "../stores/camera";
+  import { zoom } from "../stores/render";
 
   export let renderPoolMutex: Mutex<RenderPool>;
 
@@ -75,7 +76,10 @@
 </script>
 
 <div class="render-container">
-  <canvas bind:this={canvasRef} />
+  <canvas
+    bind:this={canvasRef}
+    style="transform-origin: 0 0; transform: scale({$zoom});"
+  />
 </div>
 
 <style>
