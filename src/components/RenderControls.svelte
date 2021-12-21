@@ -66,6 +66,11 @@
   ];
   let zoomIndex = 7;
   const zoomIn = () => {
+    if ($zoom === "fit") {
+      $zoom = zoomLevels[zoomIndex];
+      return;
+    }
+
     zoomIndex += 1;
     if (zoomIndex >= zoomLevels.length) {
       zoomIndex = zoomLevels.length - 1;
@@ -73,11 +78,25 @@
     $zoom = zoomLevels[zoomIndex];
   };
   const zoomOut = () => {
+    if ($zoom === "fit") {
+      $zoom = zoomLevels[zoomIndex];
+      return;
+    }
+
     zoomIndex -= 1;
     if (zoomIndex < 0) {
       zoomIndex = 0;
     }
     $zoom = zoomLevels[zoomIndex];
+  };
+  const zoomToFit = () => {
+    if ($zoom === "fit") {
+      $zoom = zoomLevels[zoomIndex];
+      return;
+    }
+
+    zoomIndex = 7;
+    $zoom = "fit";
   };
 </script>
 
@@ -128,8 +147,12 @@
       <Menu.Button on:click={zoomOut}>
         <ZoomOut />
       </Menu.Button>
-      <Menu.Button palette="accent">
-        {zoomLevels[zoomIndex] * 100} %
+      <Menu.Button palette="accent" on:click={zoomToFit}>
+        {#if $zoom !== "fit"}
+          {zoomLevels[zoomIndex] * 100} %
+        {:else}
+          Fit
+        {/if}
       </Menu.Button>
       <Menu.Button on:click={zoomIn}>
         <ZoomIn />

@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
-
-export const zoom = writable(1.0);
+export type Zoom = number | "fit";
+export const zoom = writable<Zoom>(1.0);

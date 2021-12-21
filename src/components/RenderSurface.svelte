@@ -11,6 +11,8 @@
   let canvasRef: HTMLCanvasElement;
   let initialized = false;
   let renderedYaml: string;
+  let zoomTransformation: string;
+  let containerWidth: number, containerHeight: number;
 
   export const updateCameras = async (yaml: string): Promise<void> => {
     if (pool !== undefined) {
@@ -66,6 +68,27 @@
     }
   };
 
+  $: if ($zoom === "fit") {
+    if (
+      canvasRef &&
+      canvasRef.width !== undefined &&
+      canvasRef.height !== undefined
+    ) {
+      if (
+        canvasRef.height * (containerWidth / canvasRef.width) <=
+        containerHeight
+      ) {
+        zoomTransformation = `width: 100%;`;
+      } else {
+        zoomTransformation = `height: 100%;`;
+      }
+    } else {
+      zoomTransformation = "";
+    }
+  } else {
+    zoomTransformation = `transform-origin: 0 0; transform: scale(${$zoom});`;
+  }
+
   onMount(async () => {
     initialized = true;
 
@@ -75,11 +98,12 @@
   });
 </script>
 
-<div class="render-container">
-  <canvas
-    bind:this={canvasRef}
-    style="transform-origin: 0 0; transform: scale({$zoom});"
-  />
+<div
+  class="render-container"
+  bind:clientHeight={containerHeight}
+  bind:clientWidth={containerWidth}
+>
+  <canvas bind:this={canvasRef} style={zoomTransformation} />
 </div>
 
 <style>
