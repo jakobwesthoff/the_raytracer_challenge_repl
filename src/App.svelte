@@ -20,8 +20,9 @@
     Twitter,
     Youtube,
   } from "svelte-lucide-icons";
-  import { Anchor, Menu } from "@kahi-ui/framework";
+  import { Anchor, Button, Menu } from "@kahi-ui/framework";
   import ErrorTile from "./components/ErrorTile.svelte";
+  import Imprint from "./components/Imprint.svelte";
   import three_spheres_world from "./worlds/three_spheres.yaml";
 
   let editor: YamlEditor;
@@ -96,11 +97,21 @@
     </svelte:fragment>
   </SplitView>
   <footer>
-    Made with &nbsp; <Heart /> &nbsp; by &nbsp; <Anchor
-      palette="accent"
-      href="http://westhoffswelt.de">Jakob Westhoff</Anchor
-    >
+    <div class="madeby">
+      Made with &nbsp; <Heart /> &nbsp; by &nbsp; <Anchor
+        palette="accent"
+        href="http://westhoffswelt.de"
+      >
+        Jakob Westhoff
+      </Anchor>
+    </div>
+    <div class="imprint">
+      <Button for="imprint-overlay" variation="clear" size="tiny">
+        Imprint/Impressum
+      </Button>
+    </div>
   </footer>
+  <Imprint logic_id="imprint-overlay" />
 </div>
 
 <style>
@@ -142,6 +153,7 @@
   }
 
   footer {
+    position: relative;
     display: flex;
     height: 36px;
     background: #282c34;
@@ -151,8 +163,25 @@
     justify-content: center;
     align-items: center;
   }
-  footer > :global(svg) {
+  footer :global(svg) {
     width: 20px;
     height: 20px;
+  }
+
+  footer .madeby {
+    display: flex;
+    margin-left: 8px;
+    width: 100%;
+    justify-content: center;
+    overflow: hidden;
+    max-height: 36px;
+    white-space:nowrap;
+  }
+
+  footer .imprint {
+    position: absolute;
+    right: 0;
+    padding-right: 8px;
+    background: #282c34;
   }
 </style>
