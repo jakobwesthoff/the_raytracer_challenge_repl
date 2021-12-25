@@ -1,18 +1,7 @@
 <script lang="ts">
+  import { Anchor, Button, Menu } from "@kahi-ui/framework";
   import "@kahi-ui/framework/dist/kahi-ui.framework.css";
-
-  import YamlEditor, { ChangeEvent } from "./components/YamlEditor.svelte";
-  import RenderSurface from "./components/RenderSurface.svelte";
-  import { RenderPool } from "./lib/RenderPool";
-  import { Mutex } from "./lib/Mutex";
   import { onMount } from "svelte";
-  import RenderArea, {
-    RenderErrorEvent,
-    RenderFinishedEvent,
-  } from "./components/RenderArea.svelte";
-  import SplitView from "./components/SplitView.svelte";
-  import type { SlideEvent } from "./actions/slidable";
-  import { Debouncer } from "./lib/Debouncer";
   import {
     FunctionSquare,
     Github,
@@ -20,17 +9,23 @@
     Twitter,
     Youtube,
   } from "svelte-lucide-icons";
-  import { Anchor, Button, Menu } from "@kahi-ui/framework";
   import ErrorTile from "./components/ErrorTile.svelte";
   import Imprint from "./components/Imprint.svelte";
+  import RenderArea, {
+    RenderErrorEvent,
+    RenderFinishedEvent,
+  } from "./components/RenderArea.svelte";
+  import SplitView from "./components/SplitView.svelte";
+  import YamlEditor, { ChangeEvent } from "./components/YamlEditor.svelte";
+  import { Mutex } from "./lib/Mutex";
+  import { RenderPool } from "./lib/RenderPool";
+  import { errors } from "./stores/editor";
   import three_spheres_world from "./worlds/three_spheres.yaml";
 
   let editor: YamlEditor;
   let hideEditor = false;
 
   let yaml = three_spheres_world;
-
-  let errorTile: ErrorTile;
 
   const onchange = (event: CustomEvent<ChangeEvent>) => {
     yaml = event.detail.text;
@@ -45,11 +40,11 @@
   };
 
   const onRenderError = (event: RenderErrorEvent) => {
-    errorTile.addErrorMessage(event.detail.error.message);
+    errors.addErrorMessage(event.detail.error.message);
   };
 
   const onRenderFinished = (event: RenderFinishedEvent) => {
-    errorTile.clearErrorMessages();
+    errors.clearAllErrorMessages();
   };
 
   const renderPoolMutex = new Mutex(new RenderPool());
@@ -92,7 +87,7 @@
       />
     </svelte:fragment>
     <svelte:fragment slot="b">
-      <ErrorTile bind:this={errorTile} />
+      <ErrorTile />
       <YamlEditor on:change={onchange} hidden={hideEditor} bind:this={editor} />
     </svelte:fragment>
   </SplitView>
@@ -175,7 +170,7 @@
     justify-content: center;
     overflow: hidden;
     max-height: 36px;
-    white-space:nowrap;
+    white-space: nowrap;
   }
 
   footer .imprint {

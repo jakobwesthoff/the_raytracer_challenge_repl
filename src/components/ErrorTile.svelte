@@ -8,24 +8,16 @@
     Transition,
   } from "@kahi-ui/framework";
   import { AlertTriangle } from "svelte-lucide-icons";
+  import { errors } from "../stores/editor";
 
-  export const addErrorMessage = (errorMessage: string) => {
-    message = errorMessage;
-  };
-  export const clearErrorMessages = () => {
-    message = "";
-  };
-
-  let message: string = "";
-
-  let renderedMessage: string = message;
+  let renderedMessage: string = $errors.length === 0 ? "" : $errors[0];
   let variation: "enter" | "exit" = "enter";
   let hideTile = true;
 
-  $: if (message == "") {
+  $: if ($errors.length === 0) {
     variation = "exit";
   } else {
-    renderedMessage = message;
+    renderedMessage = $errors[0];
     hideTile = false;
     variation = "enter";
   }
@@ -50,18 +42,18 @@
             <AlertTriangle />
           </Tile.Figure>
           <Tile.Section>
-            <Tile.Header
-              ><Text size="medium">Warning: Yaml Parse Error</Text></Tile.Header
-            >
+            <Tile.Header>
+              <Text size="medium">Warning:</Text>
+            </Tile.Header>
             <Text><Text is="small">{renderedMessage}</Text></Text>
           </Tile.Section>
-          <Tile.Footer>
+          <!-- <Tile.Footer>
             <Button
               size="small"
               palette="accent"
               on:click={() => (message = "")}>DISMISS</Button
             >
-          </Tile.Footer>
+          </Tile.Footer> -->
         </Tile.Container>
       </Transition>
     {/if}
