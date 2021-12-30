@@ -16,6 +16,7 @@
     Activity,
     ZoomIn,
     ZoomOut,
+    Download,
   } from "svelte-lucide-icons";
   import CameraMenu from "./CameraMenu.svelte";
   import {
@@ -25,7 +26,7 @@
     selectedCamera,
   } from "../stores/camera";
   import type { Camera } from "../Render.worker";
-  import { zoom } from "../stores/render";
+  import { canvasUrl, zoom } from "../stores/render";
 
   const dispatch = createEventDispatcher();
 
@@ -98,6 +99,15 @@
     zoomIndex = 7;
     $zoom = "fit";
   };
+  const saveRender = () => {
+    const link = document.createElement("a");
+    link.href = $canvasUrl;
+    link.download = "render.png";
+    link.style.visibility = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 </script>
 
 <Overlay
@@ -129,6 +139,12 @@
           Auto Render
         </svelte:fragment>
       </CheckMenuButton>
+      {#if $canvasUrl !== undefined}
+        <Menu.Button on:click={saveRender}>
+          <Download />
+          Export PNG
+        </Menu.Button>
+      {/if}
       {#if $cameras.length > 1}
         <CameraMenu />
       {/if}

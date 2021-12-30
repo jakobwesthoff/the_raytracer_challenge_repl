@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { createDeferred } from "../lib/Deferred";
   import type { AcquiredMutex, Mutex } from "../lib/Mutex";
   import type { RenderPool } from "../lib/RenderPool";
   import { cameras, selectedCamera } from "../stores/camera";
-  import { zoom } from "../stores/render";
+  import { zoom, canvasBlob } from "../stores/render";
 
   export let renderPoolMutex: Mutex<RenderPool>;
 
@@ -13,6 +14,27 @@
   let renderedYaml: string;
   let zoomTransformation: string;
   let containerWidth: number, containerHeight: number;
+
+  const updateCanvasBlob = async (): Promise<void> => {
+    const deferred = createDeferred<void>();
+
+    const handleBlob = (blob: Blob) => {
+      if (blob === null) {
+        $canvasBlob = undefined;
+      } else {
+        $canvasBlob = blob;
+      }
+      deferred.resolve();
+    };
+
+    if ("toBlobHD" in canvasRef) {
+      (canvasRef as any).toBlobHD(handleBlob);
+    } else {
+      canvasRef.toBlob(handleBlob);
+    }
+
+    return deferred.promise;
+  };
 
   export const updateCameras = async (yaml: string): Promise<void> => {
     if (pool !== undefined) {
@@ -51,6 +73,7 @@
     console.timeEnd("Waiting to render");
     try {
       console.time("Rendering");
+      $canvasBlob = undefined;
       await pool.loadYaml(yaml);
       let cameraToRender = $selectedCamera;
       canvasRef.setAttribute("width", `${cameraToRender.width}`);
@@ -62,6 +85,7 @@
     } catch (e) {
       throw e;
     } finally {
+      await updateCanvasBlob();
       console.timeEnd("Rendering");
       pool.release();
       pool = undefined;
