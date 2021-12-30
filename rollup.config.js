@@ -1,17 +1,18 @@
-import svelte from 'rollup-plugin-svelte';
-import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
-import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
-import sveltePreprocess from 'svelte-preprocess';
-import typescript from '@rollup/plugin-typescript';
-import postcss from 'rollup-plugin-postcss';
-import wasm from '@rollup/plugin-wasm';
-import multiInput from 'rollup-plugin-multi-input';
-import { string } from 'rollup-plugin-string';
-import { generateSW } from 'rollup-plugin-workbox';
-import { visualizer } from 'rollup-plugin-visualizer';
-import hypothetical from 'rollup-plugin-hypothetical';
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import typescript from "@rollup/plugin-typescript";
+import wasm from "@rollup/plugin-wasm";
+import compressCssVariables from "postcss-variable-compress";
+import hypothetical from "rollup-plugin-hypothetical";
+import livereload from "rollup-plugin-livereload";
+import multiInput from "rollup-plugin-multi-input";
+import postcss from "rollup-plugin-postcss";
+import { string } from "rollup-plugin-string";
+import svelte from "rollup-plugin-svelte";
+import { terser } from "rollup-plugin-terser";
+import { visualizer } from "rollup-plugin-visualizer";
+import { generateSW } from "rollup-plugin-workbox";
+import sveltePreprocess from "svelte-preprocess";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -25,25 +26,29 @@ function serve() {
 	return {
 		writeBundle() {
 			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
-				stdio: ['ignore', 'inherit', 'inherit'],
-				shell: true
-			});
+			server = require("child_process").spawn(
+				"npm",
+				["run", "start", "--", "--dev"],
+				{
+					stdio: ["ignore", "inherit", "inherit"],
+					shell: true,
+				}
+			);
 
-			process.on('SIGTERM', toExit);
-			process.on('exit', toExit);
-		}
+			process.on("SIGTERM", toExit);
+			process.on("exit", toExit);
+		},
 	};
 }
 
 export default [
 	{
-		input: ['src/**/*.worker.ts'],
+		input: ["src/**/*.worker.ts"],
 		output: {
 			sourcemap: !production,
-			format: 'iife',
-			name: 'worker',
-			dir: 'public/build/'
+			format: "iife",
+			name: "worker",
+			dir: "public/build/",
 		},
 		plugins: [
 			multiInput(),
@@ -54,14 +59,14 @@ export default [
 			// https://github.com/rollup/plugins/tree/master/packages/commonjs
 			resolve({
 				browser: true,
-				dedupe: ['svelte']
+				dedupe: ["svelte"],
 			}),
 			commonjs(),
 			typescript({
 				sourceMap: !production,
 				inlineSources: !production,
 			}),
-			wasm({ publicPath: '' }),
+			wasm({ publicPath: "" }),
 			// If we're building for production (npm run build
 			// instead of npm run dev), minify
 			production && terser(),
@@ -69,24 +74,28 @@ export default [
 	},
 
 	{
-		input: 'src/main.ts',
+		input: "src/main.ts",
 		output: {
 			sourcemap: !production,
-			format: 'iife',
-			name: 'app',
-			file: 'public/build/bundle.js'
+			format: "iife",
+			name: "app",
+			file: "public/build/bundle.js",
 		},
 		plugins: [
 			svelte({
 				preprocess: sveltePreprocess({ sourceMap: !production }),
 				compilerOptions: {
 					// enable run-time checks when not in production
-					dev: !production
-				}
+					dev: !production,
+				},
 			}),
 			// we'll extract any component CSS out into
 			// a separate file - better for performance
-			postcss({ extract: true }),
+			postcss({
+				extract: true,
+				minimize: production ? { preset: 'default' } : false,
+				plugins: production ? [compressCssVariables(['split-point-a'])] : [],
+			}),
 			string({ include: "src/worlds/**/*.yaml" }),
 
 			// If you have external dependencies installed from
@@ -96,14 +105,14 @@ export default [
 			// https://github.com/rollup/plugins/tree/master/packages/commonjs
 			resolve({
 				browser: true,
-				dedupe: ['svelte']
+				dedupe: ["svelte"],
 			}),
 			commonjs(),
 			typescript({
 				sourceMap: !production,
-				inlineSources: !production
+				inlineSources: !production,
 			}),
-			wasm({ publicPath: '' }),
+			wasm({ publicPath: "" }),
 
 			// In dev mode, call `npm run start` once
 			// the bundle has been generated
@@ -111,34 +120,32 @@ export default [
 
 			// Watch the `public` directory and refresh the
 			// browser on changes when not in production
-			!production && livereload('public'),
+			!production && livereload("public"),
 
 			// If we're building for production (npm run build
 			// instead of npm run dev), minify
 			production && terser(),
 
 			generateSW({
-				mode: production ? 'production' : 'development',
-				swDest: 'public/sw.js',
+				mode: production ? "production" : "development",
+				swDest: "public/sw.js",
 				inlineWorkboxRuntime: true,
 				sourcemap: !production,
-				globPatterns: [
-					'**/*.{html,json,js,css,png,ico,json,wasm}'
-				],
-				globDirectory: 'public/',
+				globPatterns: ["**/*.{html,json,js,css,png,ico,json,wasm}"],
+				globDirectory: "public/",
 				skipWaiting: true,
 				clientsClaim: true,
 			}),
 			hypothetical({
 				allowFallthrough: true,
 				files: {
-					'./node_modules/@kahi-ui/framework/vendor/js-temporal.js': `export const Temporal = window.Temporal`,
-				}
+					"./node_modules/@kahi-ui/framework/vendor/js-temporal.js": `export const Temporal = window.Temporal`,
+				},
 			}),
 			visualizer(),
 		],
 		watch: {
-			clearScreen: false
-		}
+			clearScreen: false,
+		},
 	},
 ];

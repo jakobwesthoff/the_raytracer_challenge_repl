@@ -20,6 +20,8 @@
     "@rollup/plugin-wasm": "^5.1.2",
     "@tsconfig/svelte": "^2.0.0",
     "@types/codemirror": "^5.60.5",
+    "postcss": "^8.4.5",
+    "postcss-variable-compress": "^0.2.5",
     "rollup": "^2.3.4",
     "rollup-plugin-hypothetical": "^2.1.1",
     "rollup-plugin-livereload": "^2.0.0",

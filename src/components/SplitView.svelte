@@ -1,5 +1,5 @@
 <script lang="ts">
-import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   import { GripHorizontal, GripVertical } from "svelte-lucide-icons";
   import { slidable, SlideEvent } from "../actions/slidable";
@@ -14,24 +14,28 @@ import { createEventDispatcher } from 'svelte';
 
   const onSlide = (event: SlideEvent) => {
     splitPoint = event.detail.proportion;
-    dispatch('slide', event.detail);
+    dispatch("slide", event.detail);
   };
 
   const onSlideStart = (event: Event) => {
     inSlide = true;
     oldStyle = document.body.style.cssText;
     document.body.style.cssText = `${oldStyle}; cursor: grab !important`;
-    dispatch('slideStart');
+    dispatch("slideStart");
   };
 
   const onSlideEnd = (event: Event) => {
     inSlide = false;
     document.body.style.cssText = oldStyle;
     oldStyle = undefined;
-    dispatch('slideEnd');
+    dispatch("slideEnd");
   };
 </script>
 
+<!-- WARNING: 'split-point-a' css var needs to be excluded from mangling in
+              rollup.config.js. If the name is changed it needs to be changed
+              there as well.
+-->
 <main
   class="split-container"
   data-orientation={orientation}
@@ -116,7 +120,6 @@ import { createEventDispatcher } from 'svelte';
   .split-divider[data-in-slide="true"] {
     color: #db9e1c;
     background: #22252a;
-
   }
 
   .split-divider :global(svg) {
