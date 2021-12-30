@@ -102,7 +102,8 @@
   const saveRender = () => {
     const link = document.createElement("a");
     link.href = $canvasUrl;
-    link.download = "render.png";
+    const activeCameraName = $selectedCamera.id;
+    link.download = `${activeCameraName}.png`;
     link.style.visibility = "none";
     document.body.appendChild(link);
     link.click();
