@@ -2,5 +2,5 @@
 /public/build/
 /public/sw.js
 /public/sw.js.map
-
+stats.html
 .DS_Store

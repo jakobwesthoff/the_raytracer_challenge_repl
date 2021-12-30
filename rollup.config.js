@@ -10,6 +10,8 @@ import wasm from '@rollup/plugin-wasm';
 import multiInput from 'rollup-plugin-multi-input';
 import { string } from 'rollup-plugin-string';
 import { generateSW } from 'rollup-plugin-workbox';
+import { visualizer } from 'rollup-plugin-visualizer';
+import hypothetical from 'rollup-plugin-hypothetical';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -57,7 +59,7 @@ export default [
 			commonjs(),
 			typescript({
 				sourceMap: !production,
-				inlineSources: !production
+				inlineSources: !production,
 			}),
 			wasm({ publicPath: '' }),
 			// If we're building for production (npm run build
@@ -127,6 +129,13 @@ export default [
 				skipWaiting: true,
 				clientsClaim: true,
 			}),
+			hypothetical({
+				allowFallthrough: true,
+				files: {
+					'./node_modules/@kahi-ui/framework/vendor/js-temporal.js': `export const Temporal = window.Temporal`,
+				}
+			}),
+			visualizer(),
 		],
 		watch: {
 			clearScreen: false
