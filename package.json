@@ -9,7 +9,7 @@
     "dev": "npm run build:wasm && rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "clean:web": "rm -rf public/build 2>/dev/null || true",
+    "clean:web": "rm -rf public/build 2>/dev/null || true; rm public/sw.js 2>/dev/null || true; rm public/sw.js.map 2>/dev/null || true",
     "clean:rust": "pushd rust && cargo clean && popd",
     "clean": "npm run clean:rust; npm run clean:web"
   },
@@ -27,6 +27,7 @@
     "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
+    "rollup-plugin-workbox": "^6.2.0",
     "svelte": "^3.0.0",
     "svelte-check": "^2.0.0",
     "svelte-preprocess": "^4.0.0",

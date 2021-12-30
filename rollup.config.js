@@ -9,6 +9,7 @@ import postcss from 'rollup-plugin-postcss';
 import wasm from '@rollup/plugin-wasm';
 import multiInput from 'rollup-plugin-multi-input';
 import { string } from 'rollup-plugin-string';
+import { generateSW } from 'rollup-plugin-workbox';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -61,7 +62,7 @@ export default [
 			wasm({ publicPath: '' }),
 			// If we're building for production (npm run build
 			// instead of npm run dev), minify
-			production && terser()
+			production && terser(),
 		],
 	},
 
@@ -112,7 +113,20 @@ export default [
 
 			// If we're building for production (npm run build
 			// instead of npm run dev), minify
-			production && terser()
+			production && terser(),
+
+			generateSW({
+				mode: production ? 'production' : 'development',
+				swDest: 'public/sw.js',
+				inlineWorkboxRuntime: true,
+				sourcemap: !production,
+				globPatterns: [
+					'**/*.{html,json,js,css,png,ico,json,wasm}'
+				],
+				globDirectory: 'public/',
+				skipWaiting: true,
+				clientsClaim: true,
+			}),
 		],
 		watch: {
 			clearScreen: false
