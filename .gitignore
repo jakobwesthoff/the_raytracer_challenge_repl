@@ -3,4 +3,5 @@
 /public/sw.js
 /public/sw.js.map
 stats.html
+build.info.json
 .DS_Store

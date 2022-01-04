@@ -13,6 +13,7 @@ import { terser } from "rollup-plugin-terser";
 import { visualizer } from "rollup-plugin-visualizer";
 import { generateSW } from "rollup-plugin-workbox";
 import sveltePreprocess from "svelte-preprocess";
+import json from '@rollup/plugin-json';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -113,6 +114,7 @@ export default [
 				inlineSources: !production,
 			}),
 			wasm({ publicPath: "" }),
+			json(),
 
 			// In dev mode, call `npm run start` once
 			// the bundle has been generated

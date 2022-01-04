@@ -4,18 +4,19 @@
   "private": true,
   "scripts": {
     "build": "npm run clean:web && npm run build:wasm && npm run build:web",
-    "build:web": "rollup -c",
+    "build:web": "scripts/create-build-info.sh >build.info.json && rollup -c; rm build.info.json||true",
     "build:wasm": "pushd rust && wasm-pack build --release --target web --out-name raytracer && wasm-opt -O3 -o pkg/out.wasm pkg/raytracer_bg.wasm && mv pkg/out.wasm pkg/raytracer_bg.wasm && popd",
-    "dev": "npm run build:wasm && rollup -c -w",
+    "dev": "npm run build:wasm && scripts/create-build-info.sh >build.info.json && trap \"rm build.info.json||true\" EXIT ERR && rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "clean:web": "rm -rf public/build 2>/dev/null || true; rm public/sw.js 2>/dev/null || true; rm public/sw.js.map 2>/dev/null || true",
     "clean:rust": "pushd rust && cargo clean && popd",
-    "clean": "npm run clean:rust; npm run clean:web",
+    "clean": "npm run clean:rust; npm run clean:web; rm build.info.json||true",
     "release:website": "./scripts/release-website.sh"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@rollup/plugin-wasm": "^5.1.2",

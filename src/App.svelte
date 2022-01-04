@@ -20,7 +20,9 @@
   import { Mutex } from "./lib/Mutex";
   import { RenderPool } from "./lib/RenderPool";
   import { errors } from "./stores/editor";
+  import { trplclickable } from "./actions/trplclickable";
   import three_spheres_world from "./worlds/three_spheres.yaml";
+import ReleaseInfo from './components/ReleaseInfo.svelte';
 
   let editor: YamlEditor;
   let hideEditor = false;
@@ -45,6 +47,11 @@
 
   const onRenderFinished = (event: RenderFinishedEvent) => {
     errors.clearAllErrorMessages();
+  };
+
+  let releaseInfoShow = false;
+  const showReleaseInfo = () => {
+    releaseInfoShow = true;
   };
 
   const renderPoolMutex = new Mutex(new RenderPool());
@@ -93,7 +100,7 @@
   </SplitView>
   <footer>
     <div class="madeby">
-      Made with &nbsp; <Heart /> &nbsp; by &nbsp; <Anchor
+      Made with &nbsp; <span use:trplclickable on:trplclick={() => showReleaseInfo()}><Heart /></span>&nbsp; by &nbsp; <Anchor
         palette="accent"
         href="http://westhoffswelt.de"
       >
@@ -107,9 +114,14 @@
     </div>
   </footer>
   <Imprint logic_id="imprint-overlay" />
+  <ReleaseInfo logic_id="release-info-overlay" bind:logic_state={releaseInfoShow} />
 </div>
 
 <style>
+  h1 {
+    user-select: none;
+  }
+
   .wrapper {
     display: flex;
     flex-direction: column;
