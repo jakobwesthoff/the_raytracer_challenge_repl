@@ -11,7 +11,8 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "clean:web": "rm -rf public/build 2>/dev/null || true; rm public/sw.js 2>/dev/null || true; rm public/sw.js.map 2>/dev/null || true",
     "clean:rust": "pushd rust && cargo clean && popd",
-    "clean": "npm run clean:rust; npm run clean:web"
+    "clean": "npm run clean:rust; npm run clean:web",
+    "release:website": "./scripts/release-website.sh"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
