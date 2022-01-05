@@ -39,6 +39,7 @@ html:focus-within {
 html,
 body {
   height: 100vh;
+  overflow:hidden;
 }
 
 /* Set core body defaults */
@@ -82,4 +83,3 @@ select {
     scroll-behavior: auto !important;
   }
 }
-
