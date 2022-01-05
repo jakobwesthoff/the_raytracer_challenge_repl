@@ -153,6 +153,7 @@ import ReleaseInfo from './components/ReleaseInfo.svelte';
     width: 28px;
     height: 28px;
     margin-right: 8px;
+    color: #ffaa55;
   }
 
   header .links {
