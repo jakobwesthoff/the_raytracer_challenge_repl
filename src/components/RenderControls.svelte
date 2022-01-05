@@ -58,7 +58,7 @@
     lastSelectedCamera = $selectedCamera;
   }
 
-  let autorender: boolean = false;
+  let autorender: boolean = true;
 
   // Zoom
   let zoomLevels = [
