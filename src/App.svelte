@@ -22,7 +22,7 @@
   import { errors } from "./stores/editor";
   import { trplclickable } from "./actions/trplclickable";
   import three_spheres_world from "./worlds/three_spheres.yaml";
-import ReleaseInfo from './components/ReleaseInfo.svelte';
+  import ReleaseInfo from "./components/ReleaseInfo.svelte";
 
   let editor: YamlEditor;
   let hideEditor = false;
@@ -64,7 +64,9 @@ import ReleaseInfo from './components/ReleaseInfo.svelte';
 <div class="wrapper">
   <header>
     <h1>
-      <FunctionSquare /> The Raytracer Challenge in Rust
+      <span use:trplclickable on:trplclick={() => showReleaseInfo()}>
+        <FunctionSquare />
+      </span> The Raytracer Challenge in Rust
     </h1>
     <div class="links">
       <Menu.Container orientation="horizontal" sizing="tiny">
@@ -100,7 +102,7 @@ import ReleaseInfo from './components/ReleaseInfo.svelte';
   </SplitView>
   <footer>
     <div class="madeby">
-      Made with &nbsp; <span use:trplclickable on:trplclick={() => showReleaseInfo()}><Heart /></span>&nbsp; by &nbsp; <Anchor
+      Made with &nbsp; <Heart /> &nbsp; by &nbsp; <Anchor
         palette="accent"
         href="http://westhoffswelt.de"
       >
@@ -114,7 +116,10 @@ import ReleaseInfo from './components/ReleaseInfo.svelte';
     </div>
   </footer>
   <Imprint logic_id="imprint-overlay" />
-  <ReleaseInfo logic_id="release-info-overlay" bind:logic_state={releaseInfoShow} />
+  <ReleaseInfo
+    logic_id="release-info-overlay"
+    bind:logic_state={releaseInfoShow}
+  />
 </div>
 
 <style>
@@ -149,7 +154,7 @@ import ReleaseInfo from './components/ReleaseInfo.svelte';
     font-size: 1.3rem;
   }
 
-  header h1 > :global(svg) {
+  header h1 :global(svg) {
     width: 28px;
     height: 28px;
     margin-right: 8px;
