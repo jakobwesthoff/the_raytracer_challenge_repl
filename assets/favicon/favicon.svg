@@ -3,11 +3,11 @@
 <svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
     <g transform="matrix(1.04427,0,0,1.04427,-22.6652,-22.6652)">
         <g transform="matrix(48.9444,0,0,48.9444,-75.3333,-75.3333)">
-            <path d="M21,3.039C21,3.018 20.982,3 20.961,3L3.039,3C3.018,3 3,3.018 3,3.039L3,20.961C3,20.982 3.018,21 3.039,21L20.961,21C20.982,21 21,20.982 21,20.961L21,3.039Z" style="fill:rgb(34,34,34);stroke:rgb(34,34,34);stroke-width:2px;"/>
+            <path d="M21,5.602C21,4.166 19.834,3 18.398,3L5.602,3C4.166,3 3,4.166 3,5.602L3,18.398C3,19.834 4.166,21 5.602,21L18.398,21C19.834,21 21,19.834 21,18.398L21,5.602Z" style="fill:rgb(34,34,34);stroke:rgb(34,34,34);stroke-width:2px;"/>
         </g>
-        <g transform="matrix(0.906924,0,0,0.906924,48.1084,48.1084)">
-            <g transform="matrix(48.9444,0,0,48.9444,-75.8333,-75.8333)">
-                <path d="M21,3.043C21,3.019 20.981,3 20.957,3L3.043,3C3.019,3 3,3.019 3,3.043L3,20.957C3,20.981 3.019,21 3.043,21L20.957,21C20.981,21 21,20.981 21,20.957L21,3.043Z" style="fill:none;stroke:rgb(255,170,85);stroke-width:2px;"/>
+        <g transform="matrix(0.789533,0,0,0.789533,108.154,108.154)">
+            <g transform="matrix(53.2569,0,0,53.1221,-127.583,-125.966)">
+                <path d="M21,5.283C21,4.023 19.98,3 18.723,3L5.277,3C4.02,3 3,4.023 3,5.283L3,18.717C3,19.977 4.02,21 5.277,21L18.723,21C19.98,21 21,19.977 21,18.717L21,5.283Z" style="fill:none;stroke:rgb(255,170,85);stroke-width:2px;"/>
             </g>
             <g transform="matrix(48.9444,0,0,48.9444,-75.8333,-75.8333)">
                 <path d="M9,17C10.93,17 11.85,16 11.85,14.2L11.85,9.99C11.85,8.06 12.88,6.73 15,7.06M9,11.24L14.66,11.24" style="fill:none;fill-rule:nonzero;stroke:rgb(255,170,85);stroke-width:2px;"/>
