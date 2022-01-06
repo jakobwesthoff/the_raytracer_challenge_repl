@@ -6,6 +6,7 @@
     FunctionSquare,
     Github,
     Heart,
+    HelpCircle,
     Twitter,
     Youtube,
   } from "svelte-lucide-icons";
@@ -19,11 +20,13 @@
   } from "./components/RenderArea.svelte";
   import RenderArea from "./components/RenderArea.svelte";
   import SplitView from "./components/SplitView.svelte";
+  import WelcomeVideo from "./components/WelcomeVideo.svelte";
   import type { ChangeEvent } from "./components/YamlEditor.svelte";
   import YamlEditor from "./components/YamlEditor.svelte";
   import { Mutex } from "./lib/Mutex";
   import { RenderPool } from "./lib/RenderPool";
   import { errors } from "./stores/editor";
+  import { showWelcomeVideo as showWelcomeVideoOption } from "./stores/welcome";
   import three_spheres_world from "./worlds/three_spheres.yaml";
 
   let editor: YamlEditor;
@@ -56,10 +59,18 @@
     releaseInfoShow = true;
   };
 
+  let welcomeVideoShow = false;
+  const showWelcomeVideo = () => {
+    welcomeVideoShow = true;
+  };
+
   const renderPoolMutex = new Mutex(new RenderPool());
 
   onMount(() => {
     editor.setText(yaml);
+    if ($showWelcomeVideoOption) {
+      showWelcomeVideo();
+    }
   });
 </script>
 
@@ -72,6 +83,9 @@
     </h1>
     <div class="links">
       <Menu.Container orientation="horizontal" sizing="tiny">
+        <Menu.Button on:click={() => showWelcomeVideo()}>
+          <HelpCircle />
+        </Menu.Button>
         <Menu.Anchor
           href="https://github.com/jakobwesthoff/the_ray_tracer_challenge_in_rust"
         >
@@ -121,6 +135,10 @@
   <ReleaseInfo
     logic_id="release-info-overlay"
     bind:logic_state={releaseInfoShow}
+  />
+  <WelcomeVideo
+    logic_id="welcome-video-overlay"
+    bind:logic_state={welcomeVideoShow}
   />
 </div>
 
