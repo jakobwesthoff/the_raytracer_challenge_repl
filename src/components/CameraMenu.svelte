@@ -1,14 +1,5 @@
 <script lang="ts">
-  import {
-    Card,
-    ContextButton,
-    Menu,
-    Overlay,
-    Popover,
-    Spacer,
-    Stack,
-    Text,
-  } from "@kahi-ui/framework";
+  import { Card, Menu, Popover } from "@kahi-ui/framework";
   import { onMount } from "svelte";
   import { CheckSquare, Square, Video } from "svelte-lucide-icons";
   import type { Camera } from "../Render.worker";
@@ -66,35 +57,32 @@
 
 <Menu.Item>
   <button on:click={onOpenPopover} bind:this={button}><Video /> Camera</button>
-  <Popover
-    logic_id="camera-selection"
-    alignment_x="right"
-    spacing="medium"
-    hidden
-  >
-    {#if $cameras.length > 0}
-      <Card.Container
-        palette="auto"
-        elevation="medium"
-        max_width="content-fit"
-        margin="none"
-        padding="none"
-      >
-        <Card.Section>
-          <Menu.Container sizing="tiny">
-            {#each $cameras as camera}
-              <Menu.Button on:click={() => selectCamera(camera)}>
-                {#if areCamerasEqual(camera, $selectedCamera)}
-                  <CheckSquare />
-                {:else}
-                  <Square />
-                {/if}
-                {camera.id}
-              </Menu.Button>
-            {/each}
-          </Menu.Container>
-        </Card.Section>
-      </Card.Container>
-    {/if}
-  </Popover>
+  <Popover.Container logic_id="camera-selection">
+    <Popover.Section alignment_x="right" spacing="medium">
+      {#if $cameras.length > 0}
+        <Card.Container
+          palette="auto"
+          elevation="medium"
+          max_width="content-fit"
+          margin="none"
+          padding="none"
+        >
+          <Card.Section>
+            <Menu.Container sizing="tiny">
+              {#each $cameras as camera}
+                <Menu.Button on:click={() => selectCamera(camera)}>
+                  {#if areCamerasEqual(camera, $selectedCamera)}
+                    <CheckSquare />
+                  {:else}
+                    <Square />
+                  {/if}
+                  {camera.id}
+                </Menu.Button>
+              {/each}
+            </Menu.Container>
+          </Card.Section>
+        </Card.Container>
+      {/if}
+    </Popover.Section>
+  </Popover.Container>
 </Menu.Item>
