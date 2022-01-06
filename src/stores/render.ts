@@ -1,5 +1,5 @@
-import { off } from "codemirror";
-import { Readable, Updater, Writable, writable } from "svelte/store";
+import type { Readable, Writable } from "svelte/store";
+import { writable } from "svelte/store";
 export type Zoom = number | "fit";
 
 const createCanvasUrlStore = (canvasBlob: Writable<Blob>): Readable<string> => {

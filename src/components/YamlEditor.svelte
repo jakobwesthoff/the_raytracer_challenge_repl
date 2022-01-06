@@ -6,13 +6,13 @@
 
 <script lang="ts">
   import type { Editor, EditorConfiguration } from "codemirror";
+  import "codemirror-one-dark-theme/one-dark.css";
   import { createEventDispatcher } from "svelte";
   import { Debouncer } from "../lib/Debouncer";
-  import { createDeferred, Deferred } from "../lib/Deferred";
-  import Codemirror, { EditorEvent } from "./Codemirror.svelte";
-  // Important: Load theme after Editor component, to allow for correct css
-  // nesting
-  import "codemirror-one-dark-theme/one-dark.css";
+  import type { Deferred } from "../lib/Deferred";
+  import { createDeferred } from "../lib/Deferred";
+  import Codemirror from "./Codemirror.svelte";
+  import type { EditorEvent } from "./Codemirror.svelte";
 
   let waitingUpdates: { text: string; deferred: Deferred<void> }[] = [];
 

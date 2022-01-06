@@ -9,20 +9,22 @@
     Twitter,
     Youtube,
   } from "svelte-lucide-icons";
+  import { trplclickable } from "./actions/trplclickable";
   import ErrorTile from "./components/ErrorTile.svelte";
   import Imprint from "./components/Imprint.svelte";
-  import RenderArea, {
+  import ReleaseInfo from "./components/ReleaseInfo.svelte";
+  import type {
     RenderErrorEvent,
     RenderFinishedEvent,
   } from "./components/RenderArea.svelte";
+  import RenderArea from "./components/RenderArea.svelte";
   import SplitView from "./components/SplitView.svelte";
-  import YamlEditor, { ChangeEvent } from "./components/YamlEditor.svelte";
+  import type { ChangeEvent } from "./components/YamlEditor.svelte";
+  import YamlEditor from "./components/YamlEditor.svelte";
   import { Mutex } from "./lib/Mutex";
   import { RenderPool } from "./lib/RenderPool";
   import { errors } from "./stores/editor";
-  import { trplclickable } from "./actions/trplclickable";
   import three_spheres_world from "./worlds/three_spheres.yaml";
-  import ReleaseInfo from "./components/ReleaseInfo.svelte";
 
   let editor: YamlEditor;
   let hideEditor = false;

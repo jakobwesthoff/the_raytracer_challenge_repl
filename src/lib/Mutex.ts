@@ -1,4 +1,5 @@
-import { createDeferred, Deferred } from "./Deferred";
+import type { Deferred } from "./Deferred";
+import { createDeferred } from "./Deferred";
 
 export type AcquiredMutex<T> = T & { release: () => void };
 

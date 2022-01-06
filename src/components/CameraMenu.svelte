@@ -11,7 +11,6 @@
   } from "@kahi-ui/framework";
   import { onMount } from "svelte";
   import { CheckSquare, Square, Video } from "svelte-lucide-icons";
-  import { __wbg_set_camera_height } from "../../rust/pkg/raytracer_bg.wasm";
   import type { Camera } from "../Render.worker";
   import { areCamerasEqual, cameras, selectedCamera } from "../stores/camera";
 

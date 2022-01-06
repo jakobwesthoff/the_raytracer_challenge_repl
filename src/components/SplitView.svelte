@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-
   import { GripHorizontal, GripVertical } from "svelte-lucide-icons";
-  import { slidable, SlideEvent } from "../actions/slidable";
+  import { slidable } from "../actions/slidable";
+  import type { SlideEvent } from "../actions/slidable";
   export let orientation: "horizontal" | "vertical" = "horizontal";
 
   let dispatch = createEventDispatcher();
