@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@kahi-ui/framework": "^0.4.13",
-    "codemirror": "^5.64.0",
+    "codemirror": "^5.65.0",
     "codemirror-one-dark-theme": "^1.1.1",
     "comlink": "^4.3.1",
     "sirv-cli": "^2.0.1",
