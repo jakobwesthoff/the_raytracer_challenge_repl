@@ -3,25 +3,37 @@
   modified to better suite my needs. Specifically the following changes were made:
   - CSS was made compatible with kahi-ui
   - The highres image is now used as poster image instead of the lowres one.
+  - Focus the button on mount
 -->
 <script>
-  export let videoId
-  export let playLabel = 'Play'
-  export let params = ''
+  import { onMount } from "svelte";
 
-  let activated = false
-  let hovered = false
+  export let videoId;
+  export let playLabel = "Play";
+  export let params = "";
 
-  $: videoId, (activated = false)
+  export let focusOnMount = true;
+
+  let activated = false;
+  let hovered = false;
+  let buttonRef;
+
+  $: videoId, (activated = false);
   $: computedParams = (() => {
-    const p = new URLSearchParams(params)
-    p.append('autoplay', '1')
-    return p.toString()
-  })()
+    const p = new URLSearchParams(params);
+    p.append("autoplay", "1");
+    return p.toString();
+  })();
 
   function focus(node) {
-    node.focus()
+    node.focus();
   }
+
+  onMount(() => {
+    if (focusOnMount) {
+      buttonRef.focus();
+    }
+  });
 </script>
 
 <svelte:head>
@@ -51,7 +63,12 @@
       />
     </picture>
   {/key}
-  <button type="button" class="lite-youtube-playbtn" aria-label={playLabel} />
+  <button
+    type="button"
+    class="lite-youtube-playbtn"
+    aria-label={playLabel}
+    bind:this={buttonRef}
+  />
   {#if activated}
     <iframe
       width="560"
@@ -83,7 +100,7 @@
 
   /* gradient */
   :global(.lite-youtube::before) {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 0;
@@ -102,7 +119,7 @@
     thanks https://css-tricks.com/responsive-iframes/
 */
   :global(.lite-youtube::after) {
-    content: '';
+    content: "";
     display: block;
     padding-bottom: calc(100% / (16 / 9));
   }
@@ -131,7 +148,11 @@
     height: 48px;
     position: absolute;
     cursor: pointer;
-    transform: translate3d(-50%, -50%, 0) !important /* !important to overwrite kahi-ui styles */;
+    transform: translate3d(
+      -50%,
+      -50%,
+      0
+    ) !important /* !important to overwrite kahi-ui styles */;
     top: 50%;
     left: 50%;
     z-index: 1;
@@ -156,7 +177,8 @@
     cursor: unset;
   }
   :global(.lite-youtube.lite-youtube-activated::before),
-  :global(.lite-youtube.lite-youtube-activated) > :global(.lite-youtube-playbtn) {
+  :global(.lite-youtube.lite-youtube-activated)
+    > :global(.lite-youtube-playbtn) {
     opacity: 0;
     pointer-events: none;
   }
