@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Card, Check, Overlay, Spacer } from "@kahi-ui/framework";
   import LiteYouTube from "./LiteYouTube.svelte";
-  import { Lightbulb } from "svelte-lucide-icons";
+  import { Lightbulb, X } from "svelte-lucide-icons";
   import { showWelcomeVideo } from "../stores/welcome";
 
   export let logic_id: string;
@@ -17,7 +17,14 @@
   <Overlay.Backdrop />
   <Overlay.Section>
     <Card.Container palette="auto">
-      <Card.Header><Lightbulb />Welcome: Tutorial</Card.Header>
+      <Card.Header>
+        <Lightbulb />
+        Welcome: Tutorial
+        <Spacer />
+        <Overlay.Button palette="inverse" variation="clear">
+          <X />
+        </Overlay.Button>
+      </Card.Header>
       <Card.Section>
         <LiteYouTube
           videoId="aXqCk33MWG8"

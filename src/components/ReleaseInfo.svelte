@@ -5,7 +5,8 @@
     wasmWrapperInfo,
     wasmRaytracerInfo,
   } from "../../build.info.json";
-  import { Card, Code, Heading, Overlay } from "@kahi-ui/framework";
+  import { Card, Code, Heading, Overlay, Spacer } from "@kahi-ui/framework";
+  import { X } from "svelte-lucide-icons";
 
   export let logic_id: string;
   export let logic_state: boolean = false;
@@ -20,7 +21,13 @@
   <Overlay.Backdrop />
   <Overlay.Section>
     <Card.Container palette="auto" max_height="75" max_width="75">
-      <Card.Header>Release Version Information</Card.Header>
+      <Card.Header>
+        Release Version Information
+        <Spacer />
+        <Overlay.Button palette="inverse" variation="clear">
+          <X />
+        </Overlay.Button>
+      </Card.Header>
       <div class="scrollable-release-info-card">
         <Card.Section>
           <Heading is="h3">REPL:</Heading>
