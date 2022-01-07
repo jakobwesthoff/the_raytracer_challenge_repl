@@ -20,6 +20,7 @@
   } from "./components/RenderArea.svelte";
   import RenderArea from "./components/RenderArea.svelte";
   import SplitView from "./components/SplitView.svelte";
+  import { tooltip } from "./actions/tooltip";
   import WelcomeVideo from "./components/WelcomeVideo.svelte";
   import type { ChangeEvent } from "./components/YamlEditor.svelte";
   import YamlEditor from "./components/YamlEditor.svelte";
@@ -83,20 +84,29 @@
     </h1>
     <div class="links">
       <Menu.Container orientation="horizontal" sizing="tiny">
-        <Menu.Button on:click={() => showWelcomeVideo()}>
+        <Menu.Button
+          on:click={() => showWelcomeVideo()}
+          actions={[[tooltip, "Show Help"]]}
+        >
           <HelpCircle />
         </Menu.Button>
         <Menu.Anchor
           href="https://github.com/jakobwesthoff/the_ray_tracer_challenge_in_rust"
+          actions={[[tooltip, "Github Link"]]}
         >
           <Github />
         </Menu.Anchor>
         <Menu.Anchor
           href="https://www.youtube.com/channel/UC-2w7N7aCqs_QclGUtXkSqg"
+          actions={[[tooltip, "Youtube: MrJakob"]]}
         >
           <Youtube />
         </Menu.Anchor>
-        <Menu.Anchor href="https://twitter.com/jakobwesthoff/" palette="light">
+        <Menu.Anchor
+          href="https://twitter.com/jakobwesthoff/"
+          palette="light"
+          actions={[[tooltip, "Twitter: @jakobwesthoff"]]}
+        >
           <Twitter />
         </Menu.Anchor>
       </Menu.Container>

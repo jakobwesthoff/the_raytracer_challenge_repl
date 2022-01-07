@@ -14,6 +14,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 import { generateSW } from "rollup-plugin-workbox";
 import sveltePreprocess from "svelte-preprocess";
 import json from '@rollup/plugin-json';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -137,6 +138,10 @@ export default [
 				globDirectory: "public/",
 				skipWaiting: true,
 				clientsClaim: true,
+			}),
+			replace({
+				'process.env.NODE_ENV': production ? JSON.stringify('production') : JSON.stringify('development'),
+				preventAssignment: true,
 			}),
 			hypothetical({
 				allowFallthrough: true,
