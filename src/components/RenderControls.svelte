@@ -16,6 +16,7 @@
     ZoomIn,
     ZoomOut,
   } from "svelte-lucide-icons";
+  import { tooltip } from "../actions/tooltip";
   import { Debouncer } from "../lib/Debouncer";
   import type { Camera } from "../Render.worker";
   import { areCameraIdsEqual, cameras, selectedCamera } from "../stores/camera";
@@ -156,17 +157,60 @@
   >
     <Box palette="dark" shape="rounded" margin="medium" padding="small">
       <Menu.Container orientation="horizontal" sizing="tiny">
-        <Menu.Button on:click={zoomOut}>
+        <Menu.Button
+          on:click={zoomOut}
+          actions={[
+            [
+              tooltip,
+              {
+                title: "Zoom Out",
+                placement: "top",
+                withFocus: false,
+                debounce: 600,
+                size: ".75rem",
+              },
+            ],
+          ]}
+        >
           <ZoomOut />
         </Menu.Button>
-        <Menu.Button palette="accent" on:click={zoomToFit}>
+        <Menu.Button
+          palette="accent"
+          on:click={zoomToFit}
+          actions={[
+            [
+              tooltip,
+              {
+                title: "Zoom to Fit",
+                placement: "top",
+                withFocus: false,
+                debounce: 600,
+                size: ".75rem",
+              },
+            ],
+          ]}
+        >
           {#if $zoom !== "fit"}
             {zoomLevels[zoomIndex] * 100} %
           {:else}
             Fit
           {/if}
         </Menu.Button>
-        <Menu.Button on:click={zoomIn}>
+        <Menu.Button
+          on:click={zoomIn}
+          actions={[
+            [
+              tooltip,
+              {
+                title: "Zoom In",
+                placement: "top",
+                withFocus: false,
+                debounce: 600,
+                size: ".75rem",
+              },
+            ],
+          ]}
+        >
           <ZoomIn />
         </Menu.Button>
       </Menu.Container>

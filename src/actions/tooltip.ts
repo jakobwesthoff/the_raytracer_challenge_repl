@@ -1,22 +1,46 @@
 import { Debouncer } from "../lib/Debouncer";
-import { computePosition, offset, shift } from "@floating-ui/dom";
+import {
+  computePosition,
+  offset,
+  shift,
+  type Placement,
+} from "@floating-ui/dom";
+import { TOKENS_PLACEMENT } from "@kahi-ui/framework";
+
+export type { Placement } from "@floating-ui/dom";
 
 export type TooltipOptions =
   | string
   | {
       title: string;
       debounce?: number;
+      placement?: Placement;
+      withFocus?: boolean;
+      size?: string;
     };
 
 export function tooltip(node: HTMLElement, options: TooltipOptions) {
   let debounce = 250;
   let title = "";
+  let placement: Placement = "bottom";
+  let withFocus = true;
+  let size = "inherit";
+
   if (typeof options === "string") {
     title = options;
   } else {
     title = options.title;
     if (options.debounce !== undefined) {
       debounce = options.debounce;
+    }
+    if (options.placement !== undefined) {
+      placement = options.placement;
+    }
+    if (options.withFocus !== undefined) {
+      withFocus = options.withFocus;
+    }
+    if (options.size !== undefined) {
+      size = options.size;
     }
   }
 
@@ -44,12 +68,14 @@ export function tooltip(node: HTMLElement, options: TooltipOptions) {
       background: "rgb(var(--palette-background-normal))",
       color: "rgb(var(--palette-foreground-normal))",
       boxShadow: "var(--elevation)",
+      fontSize: size,
     });
 
     document.body.appendChild(tooltipNode);
 
     computePosition(node, tooltipNode, {
-      middleware: [offset(4), shift()],
+      middleware: [offset(12), shift()],
+      placement,
     }).then(({ x, y }) => {
       Object.assign(tooltipNode.style, {
         left: `${x}px`,
@@ -101,15 +127,19 @@ export function tooltip(node: HTMLElement, options: TooltipOptions) {
 
   node.addEventListener("mouseenter", onMouseEnter);
   node.addEventListener("mouseleave", onMouseLeave);
-  node.addEventListener("focus", onFocus);
-  node.addEventListener("blur", onBlur);
+  if (withFocus) {
+    node.addEventListener("focus", onFocus);
+    node.addEventListener("blur", onBlur);
+  }
 
   return {
     destroy() {
       node.removeEventListener("mouseenter", onMouseEnter);
       node.removeEventListener("mouseleave", onMouseLeave);
-      node.removeEventListener("focus", onMouseEnter);
-      node.removeEventListener("blur", onMouseLeave);
+      if (withFocus) {
+        node.removeEventListener("focus", onMouseEnter);
+        node.removeEventListener("blur", onMouseLeave);
+      }
       destroyTooltipNode();
     },
   };
