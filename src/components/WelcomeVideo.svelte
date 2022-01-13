@@ -27,7 +27,7 @@
       </Card.Header>
       <Card.Section>
         <LiteYouTube
-          videoId="aXqCk33MWG8"
+          videoId="v1quvjZcJnE"
           playLabel="The Raytracer Challenge REPL: Introduction"
           params="controls=1"
         />
