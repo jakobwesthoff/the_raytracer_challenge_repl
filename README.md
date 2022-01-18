@@ -4,7 +4,7 @@ This project is a web based REPL (Read Eval Print Loop) of the [Raytracer Challe
 
 ## Try it out. It is available online
 
-A running instance can be found online at [http://raytracer.xyz].
+A running instance can be found online at [https://raytracer.xyz](https://raytracer.xyz).
 
 ## Join me while I develop the Raytracer
 
@@ -12,7 +12,7 @@ The [Raytracer Challenge in Rust](https://github.com/jakobwesthoff/the_ray_trace
 
 I invite you to join me while I present an overview of how the Raytracer REPL works and utilizes the Rust Raytracer using Webassembly:
 
-[![Join me while I present how the REPL and Webassembly integration was built](share/youtube_link.jpg)]()
+[![Join me while I present how the REPL and Webassembly integration was built](share/youtube_link.jpg)](https://youtu.be/e4uVBiFuJ54)
 
 ## Development
 

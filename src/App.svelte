@@ -91,7 +91,7 @@
           <HelpCircle />
         </Menu.Button>
         <Menu.Anchor
-          href="https://github.com/jakobwesthoff/the_ray_tracer_challenge_in_rust"
+          href="https://github.com/jakobwesthoff/the_raytracer_challenge_repl"
           actions={[[tooltip, "Github Link"]]}
         >
           <Github />
