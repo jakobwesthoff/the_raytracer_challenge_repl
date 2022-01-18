@@ -3,7 +3,7 @@ use std::panic;
 
 use the_ray_tracer_challenge::world_loader::{self, WorldLoader};
 use wasm_bindgen::{prelude::*, Clamped};
-use js_sys::{Array, Error};
+use js_sys::Error;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
