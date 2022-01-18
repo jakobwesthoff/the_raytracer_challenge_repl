@@ -1,6 +1,6 @@
 {
   "name": "the-raytracer-challenge-repl",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "npm run clean:web && npm run build:wasm && npm run build:web",
