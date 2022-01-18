@@ -10,8 +10,8 @@
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "clean:web": "rm -rf public/build 2>/dev/null || true; rm public/sw.js 2>/dev/null || true; rm public/sw.js.map 2>/dev/null || true",
-    "clean:rust": "pushd rust && cargo clean && popd",
-    "clean": "npm run clean:rust; npm run clean:web; rm build.info.json 2>/dev/null||true",
+    "clean:wasm": "pushd rust && cargo clean && popd",
+    "clean": "npm run clean:wasm; npm run clean:web; rm build.info.json 2>/dev/null||true",
     "release:website": "./scripts/release-website.sh"
   },
   "devDependencies": {
