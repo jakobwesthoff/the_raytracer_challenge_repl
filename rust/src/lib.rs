@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 use std::panic;
 
+use js_sys::Error;
 use the_ray_tracer_challenge::world_loader::{self, WorldLoader};
 use wasm_bindgen::{prelude::*, Clamped};
-use js_sys::Error;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -19,9 +19,9 @@ macro_rules! anyhow_js_err {
     ($expr: expr) => {
         match $expr {
             Ok(result) => Ok(result),
-            Err(anyhow_error) => Err(Error::new(&*anyhow_error.to_string()))
+            Err(anyhow_error) => Err(Error::new(&*anyhow_error.to_string())),
         }
-    }
+    };
 }
 
 #[wasm_bindgen(start)]
@@ -82,38 +82,43 @@ impl World {
         y2: usize,
     ) -> Result<Clamped<Vec<u8>>, JsValue> {
         if !self.cameras.contains_key(&camera_id) {
-            return throw_js_error!(
-                "Given cameraId '{}', is not defined.",
-                camera_id
-            );
+            return throw_js_error!("Given cameraId '{}', is not defined.", camera_id);
         }
         let camera = self.cameras.get(&camera_id).unwrap();
 
         if x1 > camera.hsize || x2 > camera.hsize {
             return throw_js_error!(
                 "Requested x value (x1: {}, x2: {}) is outside of camera bounds {}x{}.",
-                x1, x2, camera.vsize, camera.hsize
+                x1,
+                x2,
+                camera.vsize,
+                camera.hsize
             );
         }
 
         if y1 > camera.vsize || y2 > camera.vsize {
             return throw_js_error!(
                 "Requested y value (y1: {}, y2: {}) is outside of camera bounds {}x{}.",
-                y1, y2, camera.vsize, camera.hsize
+                y1,
+                y2,
+                camera.vsize,
+                camera.hsize
             );
         }
 
         if x1 >= x2 {
             return throw_js_error!(
                 "x2 is now allowed to be smaller or equal than x1 ({} < {})",
-                x2, x1
+                x2,
+                x1
             );
         }
 
         if y1 >= y2 {
             return throw_js_error!(
                 "y2 is now allowed to be smaller or equal than y1 ({} < {})",
-                y2, y1
+                y2,
+                y1
             );
         }
 
