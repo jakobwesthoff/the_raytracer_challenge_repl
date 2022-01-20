@@ -48,6 +48,24 @@
     },
     theme: "one-dark",
     viewportMargin: Infinity,
+    smartIndent: true,
+    indentWithTabs: false,
+    tabSize: 2,
+    indentUnit: 2,
+    extraKeys: {
+      Tab: (cm) => {
+        if (cm.getMode().name === "null") {
+          cm.execCommand("insertTab");
+        } else {
+          if (cm.somethingSelected()) {
+            cm.execCommand("indentMore");
+          } else {
+            cm.execCommand("insertSoftTab");
+          }
+        }
+      },
+      "Shift-Tab": (cm) => cm.execCommand("indentLess"),
+    },
   };
 
   let dispatch = createEventDispatcher();
@@ -58,6 +76,7 @@
 
   $: if (editor) {
     editor.setSize("100%", "100%");
+    // Enable softtabs
     editor.on(
       "change",
       Debouncer.debounce(
