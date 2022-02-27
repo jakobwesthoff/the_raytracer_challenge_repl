@@ -17,7 +17,17 @@
     type: sphere
     material:
       type: phong
-      color: [0.635, 0, 1]
+      pattern:
+        type: gradient
+        colorA: [1, 0, 0]
+        colorB: [0, 1, 0]
+        transforms:
+          - type: scale
+            to: [2, 2, 2]
+          - type: translate
+            to: [1, 0, 0]
+          - type: rotate_z
+            degrees: 270
     transforms:
       - type: scale
         to: [0.33, 0.33, 0.33]
@@ -31,11 +41,11 @@
       type: phong
       pattern:
         type: striped
-        colorA: [0,0,0]
-        colorB: [1,1,1]
+        colorA: [0, 0, 0]
+        colorB: [1, 1, 1]
         transforms:
           - type: scale
-            to: [.2,.2,.2]
+            to: [.2, .2, .2]
           - type: rotate_z
             degrees: 45
       diffuse: 0.9
