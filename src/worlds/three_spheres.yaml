@@ -29,7 +29,15 @@
     type: sphere
     material:
       type: phong
-      color: [1, 0, 0.635]
+      pattern:
+        type: striped
+        colorA: [0,0,0]
+        colorB: [1,1,1]
+        transforms:
+          - type: scale
+            to: [.2,.2,.2]
+          - type: rotate_z
+            degrees: 45
       diffuse: 0.9
       specular: 1.8
     transforms:
