@@ -9,7 +9,10 @@
     type: plane
     material:
       type: phong
-      color: [0.5, 0.45, 0.45]
+      pattern:
+        type: checkerboard
+        colorA: [0, 0, 0]
+        colorB: [1, 1, 1]
       specular: 0.0
 
 # Left Sphere
@@ -40,12 +43,13 @@
     material:
       type: phong
       pattern:
-        type: striped
+        type: checkerboard
+        3d: false
         colorA: [0, 0, 0]
         colorB: [1, 1, 1]
         transforms:
           - type: scale
-            to: [.2, .2, .2]
+            to: [0.1, 0.1, 0.1]
           - type: rotate_z
             degrees: 45
       diffuse: 0.9
@@ -59,7 +63,17 @@
     type: sphere
     material:
       type: phong
-      color: [0, 0.635, 1]
+      pattern:
+        type: ring
+        colorA: [1, 1, 0]
+        colorB: [0, 0, 1]
+        transforms:
+          - type: scale
+            to: [0.02, 0.02, 1]
+          # - type: translate
+          #   to: [1, 0, 0]
+          - type: rotate_y
+            degrees: -45
     transforms:
       - type: scale
         to: [0.5, 0.5, 0.5]
@@ -76,7 +90,7 @@
     to: [0, 1, 0]
     up: [0, 1, 0]
 
-# Camera further moved down x
+# Camera further moved down
 - camera:
     name: second_camera
     width: 1280
