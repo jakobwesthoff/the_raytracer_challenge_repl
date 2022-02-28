@@ -15,6 +15,7 @@ import { generateSW } from "rollup-plugin-workbox";
 import sveltePreprocess from "svelte-preprocess";
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
+import html from 'html-rollup-plugin';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -81,7 +82,7 @@ export default [
 			sourcemap: !production,
 			format: "iife",
 			name: "app",
-			file: "public/build/bundle.js",
+			file: production ? "public/build/bundle.[hash].js" : "public/build/bundle.dev.js",
 		},
 		plugins: [
 			svelte({
@@ -116,6 +117,16 @@ export default [
 			}),
 			wasm({ publicPath: "" }),
 			json(),
+
+			html({
+				template: 'src/index.html',
+				dest: "public/",
+				filename: 'index.html',
+				inject: 'head',
+				defer: true,
+				ignore: /\.worker\.js|sw\.js$|global\.css$/,
+				externals: []
+			}),
 
 			// In dev mode, call `npm run start` once
 			// the bundle has been generated
